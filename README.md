@@ -17,7 +17,7 @@
   <a href="https://github.com/HuskyDanny/verboseless-all-in-one/stargazers"><img src="https://img.shields.io/github/stars/HuskyDanny/verboseless-all-in-one?style=flat&color=yellow" alt="Stars"></a>
   <a href="#install"><img src="https://img.shields.io/badge/works_with-12%2B_agents-orange?style=flat" alt="12+ agents"></a>
   <a href="https://github.com/HuskyDanny/verboseless-all-in-one/commits/main"><img src="https://img.shields.io/github/last-commit/HuskyDanny/verboseless-all-in-one?style=flat" alt="Last commit"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/HuskyDanny/verboseless-all-in-one?style=flat" alt="License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat" alt="License: MIT"></a>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
   <a href="#the-three-axes">Axes</a> ·
   <a href="#how-it-works">How</a> ·
   <a href="#benchmarks">Benchmarks</a> ·
-  <a href="#why-23-and-not-60">Why not 60%</a>
+  <a href="#why-23-and-not-65">Why not 65%</a>
 </p>
 
 ---
@@ -218,10 +218,10 @@ Agentic coding worker (Claude Agent SDK, GLM-5.2), identical task both arms:
 wider than this pair's $0.78 gap. Direction reproduced across three studies; the
 magnitude is suggestive, not settled.
 
-## Why 23% and not 60%
+## Why 23% and not 65%
 
-Terseness personas advertise 60%+, and they measure it honestly — on a one-shot reply,
-where the reply **is** the bill. On an agentic run it isn't:
+Caveman advertises "cuts 65% of output tokens (measured)", and measures it honestly —
+on a one-shot reply, where the reply **is** the bill. On an agentic run it isn't:
 
 ```
 baseline run cost = $5.66
@@ -230,9 +230,9 @@ baseline run cost = $5.66
   output          $0.67   11.8%   ← all a terseness persona can touch
 ```
 
-Output is the **ceiling**, and it's 11.8%. Cut 60% of it → save 7.1%. Cut *all* of it
-→ save 11.8%. So 23% can't come from terser messages; it exceeds the ceiling. It comes
-from the run being shorter:
+Output is the **ceiling**, and it's 11.8%. Cut 65% of it → save 7.7%. Cut *all* of it —
+every token the model emits — → save 11.8%. So 23% can't come from terser messages; it
+exceeds the ceiling. It comes from the run being shorter:
 
 ```
 output tokens   87,563 → 66,319   −24.3%
@@ -244,8 +244,9 @@ Read calls          30 →  16      −46.7%
 Every avoided turn deletes a full re-send of the cached context, ~$0.03–0.04 each. Two
 compressions stack to explain the gap: terseness only compresses **prose**, and prose
 is a minority of output (reasoning alone ~⅔); output is in turn a minority of cost.
-Sixty percent off a slice of a slice lands in single digits — which is why caveman's
-own README now reports **8.5%** on long-horizon agentic runs.
+Sixty-five percent off a slice of a slice lands in single digits — which is why
+caveman's own README now reports **8.5%** on long-horizon agentic runs, and that number
+is the honest one for a single terseness axis.
 
 The uncomfortable corollary: **write-less carries most of this, not say-less.** Not
 building the speculative thing and not re-reading what you already read removes whole
