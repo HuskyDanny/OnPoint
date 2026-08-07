@@ -1,0 +1,5 @@
+[features]
+# codex-cli renamed codex_hooks -> hooks; builds that predate the rename ignore
+# unknown keys silently, so shipping both activates on either.
+hooks = true
+codex_hooks = true

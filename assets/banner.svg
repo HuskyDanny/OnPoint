@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" width="1440" height="300"
+     role="img" aria-label="verboseless — big idea, fewer words, less code">
+<title>verboseless</title>
+<defs>
+  <style>
+    .bar { fill:#fdfcf8; }
+    .b1 { animation:b1 5s ease-in-out infinite; }
+    .b2 { animation:b2 5s ease-in-out infinite; }
+    .b3 { animation:b3 5s ease-in-out infinite; }
+    /* each bar compresses to its own depth: idea, words, code */
+    @keyframes b1 { 0%,12% {width:210px;} 40%,100% {width:150px;} }
+    @keyframes b2 { 0%,20% {width:210px;} 48%,100% {width:96px;} }
+    @keyframes b3 { 0%,28% {width:210px;} 56%,100% {width:52px;} }
+    @media (prefers-reduced-motion:reduce) {
+      .b1,.b2,.b3 { animation:none; }
+      .b1 { width:150px; } .b2 { width:96px; } .b3 { width:52px; }
+    }
+  </style>
+</defs>
+
+<rect width="1440" height="300" fill="#0d0d0f"/>
+
+<!-- the mark: three bars, each compressed further than the last -->
+<rect class="bar b1" x="150" y="70"  width="150" height="24" rx="4"/>
+<rect class="bar b2" x="150" y="116" width="96"  height="24" rx="4"/>
+<rect class="bar b3" x="150" y="162" width="52"  height="24" rx="4"/>
+
+<text x="392" y="178" fill="#fdfcf8"
+      font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
+      font-size="128" font-weight="700" letter-spacing="-4">verboseless</text>
+<text x="398" y="228" fill="#8b8680"
+      font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
+      font-size="30" letter-spacing="2.5">BIG IDEA · FEWER WORDS · LESS CODE</text>
+</svg>

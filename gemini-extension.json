@@ -1,0 +1,6 @@
+{
+  "name": "verboseless",
+  "version": "0.1.0",
+  "description": "Detail less, say less, write less. Big idea first, terse prose, YAGNI code. Substance never compressed.",
+  "contextFileName": "GEMINI.md"
+}
