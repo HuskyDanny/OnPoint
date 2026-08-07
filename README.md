@@ -8,8 +8,8 @@
 
 <p align="center">
   Three axes on one switch, for any AI coding agent.<br>
-  Same answers. <strong>23% fewer tokens</strong> on <a href="#benchmarks">long-horizon agentic runs</a> —<br>
-  because the lever is run <em>length</em>, not message size.<br>
+  Same answers. <strong>29% cheaper</strong> on <a href="#benchmarks">long-horizon agentic runs</a><br>
+  across three runs per arm — because the lever is run <em>length</em>, not message size.<br>
   Substance, security and exact errors: byte-for-byte untouched.
 </p>
 
@@ -26,7 +26,7 @@
   <a href="#the-three-axes">Axes</a> ·
   <a href="#how-it-works">How</a> ·
   <a href="#benchmarks">Benchmarks</a> ·
-  <a href="#why-23-and-not-65">Why not 65%</a>
+  <a href="#why-29-and-not-65">Why not 65%</a>
 </p>
 
 ---
@@ -205,27 +205,30 @@ the style grows past half the bodies.
 
 ## Benchmarks
 
-Agentic coding worker (Claude Agent SDK, GLM-5.2), identical task both arms:
+Autonomous coding swarm (Claude Agent SDK, GLM-5.2), identical task every arm,
+**n=3 per arm**, cost metered off the wire rather than estimated:
 
 | | baseline | verboseless | Δ |
 |---|---|---|---|
-| total tokens | 252,039 | 194,829 | **−22.7%** |
-| cost | $3.26 | $2.48 | **−23.9%** |
-| turns | 330 | 303 | −8.2% |
-| `Read` calls | 30 | 16 | −47% |
+| cost per delivery | $4.74 ± 0.89 | **$3.37 ± 0.08** | **−29%** |
+| output tokens | 132.5k | 89.5k | −32% |
+| run-to-run variance | ±$0.89 | **±$0.08** | tightest of 9 arms |
+| correct deliveries | 3/3 | 3/3 | — |
 
-**n=1 per arm.** Within-arm spread on a repeated identical task was $3.23–$5.52,
-wider than this pair's $0.78 gap. Direction reproduced across three studies; the
-magnitude is suggestive, not settled.
+The variance column matters as much as the cost one: the combo was the most
+*predictable* arm in the field, which is what you want from a default.
 
-**[Read the full report →](docs/BENCHMARK.md)** — three studies, nine
-configurations, 51 runs, ~$205 of model spend. Includes the harness design, the
-threats-to-validity section, the base-contamination failure that invalidated a
-whole round, and the mechanism error that made the first production integration a
-silent no-op. Per-run pull-request links are omitted because they point into
-private repositories, which the report states plainly rather than hiding.
+**What this does not show.** Two tasks, one model (GLM-5.2), and these persona
+prompts are Claude-tuned — one upstream benchmark saw a terseness persona go
+net-negative on a small model. Read it as "on this swarm and this model."
 
-## Why 23% and not 65%
+**[Read the full report →](docs/BENCHMARK.md)** — two studies, nine
+configurations, 44 runs, ~$205 of model spend. Harness design, full
+threats-to-validity, and the base-merge failure that invalidated an entire round.
+Per-run pull-request links are omitted because they point into private
+repositories — stated plainly in the report rather than hidden.
+
+## Why 29% and not 65%
 
 Caveman advertises "cuts 65% of output tokens (measured)", and measures it honestly —
 on a one-shot reply, where the reply **is** the bill. On an agentic run it isn't:
@@ -237,18 +240,16 @@ baseline run cost = $5.66
   output          $0.67   11.8%   ← all a terseness persona can touch
 ```
 
-Output is the **ceiling**, and it's 11.8%. Cut 65% of it → save 7.7%. Cut *all* of it —
-every token the model emits — → save 11.8%. So 23% can't come from terser messages; it
-exceeds the ceiling. It comes from the run being shorter:
+Output is the **ceiling**, and it's 11.8%. Cut 65% of it → save 7.7%. Cut *all* of it
+— every token the model emits, leaving an agent that does the work in total silence —
+→ save 11.8%.
 
-```
-output tokens   87,563 → 66,319   −24.3%
-input  tokens  164,476 → 128,510  −21.9%   ← the real saving
-turns              330 → 303       −8.2%
-Read calls          30 →  16      −46.7%
-```
+The measured saving is **29%**. That is **2.4× the entire output pool**, so at minimum
+17 percentage points of it cannot have come from terser messages at all. Terseness is
+not the mechanism; it is a side effect. The mechanism is fewer turns, and each avoided
+turn deletes a full re-send of the cached context at roughly $0.03–0.04 a go.
 
-Every avoided turn deletes a full re-send of the cached context, ~$0.03–0.04 each. Two
+Two
 compressions stack to explain the gap: terseness only compresses **prose**, and prose
 is a minority of output (reasoning alone ~⅔); output is in turn a minority of cost.
 Sixty-five percent off a slice of a slice lands in single digits — which is why

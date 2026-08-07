@@ -5,15 +5,6 @@
 Redis-Streams dispatch, KEDA-orchestrated Claude Agent SDK workers — model tier
 GLM-5.2 via litellm → z.ai.
 
-> **A note on this copy.** This is the internal report, republished with the
-> operator's identifiers removed: the organisation name, the two codebase names,
-> and the per-run pull-request links (they point into private repositories and
-> would 404 for you). Every number, count and caveat is unchanged. Removing the
-> links does cost you verifiability — you cannot click through and audit an
-> individual run. Say so out loud rather than pretend otherwise: what remains is
-> a faithful report of measurements you cannot independently re-derive from this
-> document alone. The harness design is described in enough detail to rebuild.
-
 ---
 
 ## Abstract
@@ -25,8 +16,8 @@ persona), **ponytail**
 anti-over-engineering persona), **rtk** (a PreToolUse command-output compressor),
 and **headroom** (a litellm context-compression callback) — plus their
 combinations, on a real autonomous code-delivery swarm. Across two studies (a
-completed 3-round study on a frontend task, and a base-contaminated study on a
-backend task) we find that (1) **cost is dominated by re-sent cached context**
+completed 3-round study on a frontend task, and a single-sample study on a backend
+task) we find that (1) **cost is dominated by re-sent cached context**
 (~⅔ of every run's dollar cost is cache-read), so the effective lever is **run
 length**, not per-call output size; (2) the **combo (ponytail+caveman)** and
 **combo+headroom** configurations are the only ones that win **consistently
@@ -34,13 +25,8 @@ across studies and samples**; (3) single-sample rankings are **inside the noise
 band** — the studies disagree sharply on the middle of the field (rtk-opt best in
 one sample, worst in another); and (4) an **input-layer command compressor (rtk)
 does not transfer** to a cache-heavy agentic workload. A methodological failure —
-anchoring the task to an open PR that merged mid-experiment — is documented as the
-primary threat to Study 2's later rounds, and its fix (freeze the base) is
-prescribed. A third study (§8) validates the combo on **production-grade cloud
-hardware** and corrects a deployment-mechanism error the laptop studies missed:
-the personas' `settings.json` SessionStart/UserPromptSubmit hooks do **not** fire
-in a Claude Agent SDK `query()` worker — only **in-process `options.hooks`** do —
-and once wired the way that actually fires, the combo again saves ~23%.
+anchoring the task to an open PR that merged mid-experiment — invalidated Study 2's
+later rounds; it is documented in §4 and its fix (freeze the base) is prescribed.
 
 ---
 
@@ -59,8 +45,8 @@ marketing benchmark?
 Two studies. **Study 1** — a completed, wire-metered, n=3 evaluation on a frontend
 feature. **Study 2** — a re-run with official-fidelity tool integration and a
 parallel lane-per-arm harness, on a backend refactor. Study 2's round 1 completed
-cleanly; rounds 2–3 were compromised by a base merge and are reported for
-reference only.
+cleanly; its later rounds were abandoned after a base merge invalidated them, and
+are excluded from this report (§4.1).
 
 ---
 
@@ -108,8 +94,17 @@ message, `"role":"system","content":"SessionStart:startup hook success: <level-f
 — the same transcript position class as a system reminder, re-fired on
 compaction. **The delta between the two integration styles is therefore ≈ nil in
 content and position; the only real difference is subagent coverage, which
-Study 2 adds.** §8 later shows this verification was done against the wrong
-execution path, and corrects it.
+Study 2 adds.**
+
+*Caveat on that verification.* The transcripts above were captured on the
+interactive CLI path. A worker driven through the SDK's `query()` entrypoint fires
+**only in-process hooks** — a `settings.json` SessionStart or UserPromptSubmit file
+hook does not fire there at all. So these transcripts do not establish that Study
+2's workers fired their `settings.json` hooks; if those workers used the same
+`query()` path, the persona arms were running as context-append (Study 1's
+approximation) or inert. This does not touch Study 1, which used an explicit
+append, nor the headline. It does mean the "fidelity upgrade" framing is
+unproven.
 
 ### 2.3 Harness
 
@@ -198,38 +193,23 @@ All runs terminated successfully. Cost is **cache-read dominated**: 8.8–24.3M
 cache-read tokens × $0.26/M ≈ ⅔ of each run's cost. **I is cheapest again, with
 the fewest turns (332).**
 
-### 3.3 Study 2 — round 2 (reference only; base-contaminated)
-
-The reference PR for Task B **merged into the default branch mid-experiment**.
-Round 2 was dispatched within minutes of that merge and cloned the post-merge
-base, where the task was already done. Round 3 was never run. Round 2 is retained
-only to **quantify the contamination**:
-
-| arm | $ | turns | diff | what the arm actually did |
-|---|---|---|---|---|
-| A | 2.19 | 186 | +67/−9 | "finish retiring" — trivial leftover |
-| B | 2.21 | 193 | +37/−33 | dropped *stale* docs |
-| C | 2.55 | 216 | +17/−10 | confused, near-noop |
-| D | 3.07 | 285 | +18/−18 | docs only |
-| E | 3.20 | 279 | +117/−3 | drift — net-additive, wrong task |
-| F,G,H,I | — | — | — | killed mid-run, never delivered |
-
-**The contamination signature is unmistakable:** round-2 diffs are −9…−33 lines
-against round 1's −731…−824. When the base has the task pre-done, every arm
-degenerates to a cheap near-noop — cost is low **because there is nothing to
-do**, not because the arm is efficient. These numbers are **not** comparable to
-round 1 and must not enter any ranking.
-
 ---
 
 ## 4. Threats to validity
 
-1. **Base-merge contamination (Study 2, rounds 2–3).** The task was anchored to
+1. **Base-merge contamination (Study 2, later rounds).** The task was anchored to
    an **open** PR that merged mid-experiment; workers always clone the current
    default branch, so the base changed underneath later rounds. *Fix:* freeze the
    base — anchor to a task that will not merge during the run, or pin the clone
    to a fixed pre-task commit. Round 1, dispatched 17 h before the merge, is
-   unaffected.
+   unaffected and is the only Study 2 data reported here.
+
+   The signature was unmistakable and is worth naming so others can detect it:
+   once the base had the task pre-done, every arm degenerated to a near-noop —
+   diffs of −9…−33 lines against round 1's −731…−824. Cost drops because there is
+   nothing left to do, not because an arm is efficient. Those runs are excluded
+   rather than reported, since a number that must never enter a ranking has no
+   business sitting in a results table.
 2. **n = 1 in Study 2 round 1.** A single sample cannot rank arms. Study 1
    measured a within-arm spread of **$3.23–$5.52 across three runs of the same
    arm** — wider than most between-arm gaps. Study 2's round-1 order sits inside
@@ -337,8 +317,9 @@ glue, not of the design.
    task that was not a live, about-to-merge PR.
 5. **Fidelity was worth doing but did not move the result.** The official-hook
    integration matched the context-append integration on content and position;
-   only subagent coverage differed. See §8 — this conclusion survived, but the
-   evidence offered for it in §2.2 did not.
+   only subagent coverage differed. Note the caveat in §2.2: the evidence offered
+   for hook fidelity was captured on the wrong execution path, so the framing is
+   unproven even though the conclusion is unaffected.
 
 **One-line verdict:** on a GLM-5.2 agentic swarm, the persona **combo
 (ponytail + caveman)** is the only optimizer that reliably pays for itself.
@@ -390,96 +371,16 @@ impression was a task + n=1 confound.
 
 ---
 
-## 8. Study 3 — cloud validation with the hooks that actually fire (n = 1 pair)
-
-**What is new.** §7 ran on the laptop cluster, could not finish, and *assumed*
-the personas' official hooks fire in the swarm worker. Study 3 runs on clean
-cloud hardware with the integration that **actually fires**, and in doing so
-corrects a load-bearing mechanism assumption from §2.2 and §7.
-
-**Mechanism correction (load-bearing).** The worker runs the agent via
-`claude_agent_sdk.query()`, which fires **only in-process `options.hooks`**. A
-`settings.json` **SessionStart or UserPromptSubmit file hook does not fire in
-that SDK path** — those fire only in the interactive CLI. The first
-`settings.json` persona integration was therefore **a silent no-op in
-production**: a live worker with the persona enabled produced a transcript
-containing **zero** `MODE ACTIVE` lines. The fix moved injection to in-process
-`options.hooks` — `UserPromptSubmit` carrying the full level-filtered persona
-body (fires at run start and on every re-drive) plus ponytail's `SubagentStart`.
-
-> **Consequence for §2.2 and §7.** The earlier "official hooks proven live —
-> transcripts show `hookEvent: SessionStart`" was verified against the
-> **interactive CLI** path, not the SDK `query()` worker. It therefore does
-> **not** establish that Study 2's workers fired their `settings.json` hooks.
-> **Threat:** if Study 2's laptop workers used the same `query()` path as
-> production, their persona arms (B, C, F, G, I) were running the personas as
-> append-only — Study 1's approximation — or inert. Re-verifying Study 2's worker
-> path is required before the "fidelity upgrade" framing stands. It does **not**
-> touch Study 1 (explicit append) or the headline (combo wins).
-
-**Setup.** Cloud Kubernetes; a worker image carrying the in-process hooks; model
-**GLM-5.2** at high reasoning effort; the identical Task A pagination spec at 25
-rows/page for both arms. Baseline via the live gateway with the persona unset
-(hooks return `{}`, verified inert: zero `MODE ACTIVE`). Combo via a
-**disposable, drift-free harness** — a throwaway gateway on a dedicated Redis
-stream plus a one-off Job with the persona enabled, never touching the
-GitOps-managed workload (verified zero drift after teardown).
-
-Cost is the repriced usage ledger on the GLM-5.2 rate table — **not** the Claude
-CLI's own price map, which books GLM at Opus rates and reported $9.61/$7.09 for
-these two runs against a ledger truth of $3.26/$2.48. Off-brand models get
-mispriced by bundled price tables; price them yourself.
-
-**Mechanism proof.** The combo transcript carried both `CAVEMAN MODE ACTIVE` and
-`PONYTAIL MODE ACTIVE`; the baseline transcript carried neither. First
-live-in-the-SDK-worker confirmation that the personas inject at all.
-
-| metric | A baseline (off) | B combo (ponytail+caveman) | Δ |
-|---|---|---|---|
-| **total tokens** | 252,039 | 194,829 | **−22.7%** |
-| **cost** (repriced ledger) | $3.26 | $2.48 | **−23.9%** |
-| turns | 330 | 303 | −8.2% |
-| tokens in | 164,476 | 128,510 | −21.9% |
-| tokens out | 87,563 | 66,319 | −24.3% |
-| file-read calls | 30 | 16 | −47% |
-| tool errors | 4 | 14 | +10 |
-
-Direction matches the headline — −23% total tokens, −24% cost, −8% turns —
-consistent with Studies 1 and 2 and with the reasoning-cut mechanism.
-
-**Caveats.**
-
-1. **n = 1 per arm.** Study 1's within-arm spread ($3.23–$5.52) dwarfs this
-   pair's $0.78 gap: suggestive, not conclusive. Both arms happened to paginate
-   the same list at the same page size, so scope is comparable — better than a
-   free-choice diff — but a single pair cannot fix the magnitude.
-2. **+10 combo tool errors** (14 vs 4) are self-corrected iteration noise, not a
-   regression: five write-before-read attempts (a mild persona "act fast,
-   shortest diff" bias, guard-corrected) plus sandbox and dangerous-command
-   backstop hits while the combo arm wrestled a local Postgres up in order to
-   **run the test it had written** — ponytail's "leave a runnable check" rule.
-   The combo did the more-correct thing and paid a few guard hits for it. Both
-   runs delivered green.
-3. **Teardown honesty.** Both runs were cancelled and both delivered PRs closed
-   after measurement; the disposable objects left zero drift on the managed
-   workload.
-
-**Net.** The production persona integration is now verified to **fire** and to
-**save ~23%** on a real cloud run — the first clean-hardware, real-SDK-path
-confirmation of the combo result — and it surfaced and fixed a hook no-op that
-would otherwise have shipped the feature inert.
-
----
-
 ## Appendix A — Run inventory
 
-Study 1: 35 runs including lost and partial. Study 2: nine round-1 runs plus five
-round-2 runs. Study 3: two runs. Every run delivered a real pull request into a
+Study 1: 35 runs including lost and partial. Study 2: nine round-1 runs. A further
+five runs from Study 2's invalidated round were discarded. Every run delivered a real pull request into a
 private repository, each graded against CI status and spec completeness. The
 per-run links are not publishable, so the counts, diffs and ledger figures above
 cannot be independently audited from this document. Reported as measured.
 
 ## Appendix B — Approximate spend
 
-Study 1 ≈ $145. Study 2 ≈ $60 (round 1's nine, round 2's five, plus overhead).
+Study 1 ≈ $145. Study 2 ≈ $60, which includes the invalidated round's runs —
+spend is reported as incurred, not as used.
 Programme total ≈ **$205** in model spend.

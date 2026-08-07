@@ -1,7 +1,7 @@
 {
   "name": "verboseless",
   "version": "0.1.0",
-  "description": "Detail less, say less, write less. Abstract first always, caveman when you talk, ponytail when you write. Hook injects the rules; an optional output style carries the role. Measured -23% tokens / -24% cost on a real agentic run.",
+  "description": "Detail less, say less, write less. Abstract first always, caveman when you talk, ponytail when you write. Hook injects the rules; an optional output style carries the role. Measured -29% cost across three runs per arm on a real agentic swarm.",
   "author": {
     "name": "Allen Pan",
     "url": "https://github.com/HuskyDanny"

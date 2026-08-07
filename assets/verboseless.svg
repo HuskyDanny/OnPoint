@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" width="1280" height="780"
      role="img" aria-label="How verboseless works: three persona bodies on disk are cat'd by one hook into the tail of the context on every prompt, where three axes govern the first line, the prose and the code — measured 23 percent fewer tokens.">
 <title>verboseless — three axes, one cat</title>
-<desc>Five panels. One: four markdown bodies on disk totalling 12.1 KB. Two: one hook script cats them; all three hook events accept plain stdout as context. Three: the injection lands at the tail of the context next to the live turn and is re-fired, whereas CLAUDE.md sits once at the head and decays. Four: the three axes govern the first line, everything you say, and everything you write, in that order. Five: measured on dev EKS, 252k tokens to 195k, $3.26 to $2.48, 330 turns to 303.</desc>
+<desc>Five panels. One: four markdown bodies on disk totalling 12.1 KB. Two: one hook script cats them; all three hook events accept plain stdout as context. Three: the injection lands at the tail of the context next to the live turn and is re-fired, whereas CLAUDE.md sits once at the head and decays. Four: the three axes govern the first line, everything you say, and everything you write, in that order. Five: measured across three runs per arm, cost $4.74 to $3.37 per delivery, output 132.5k tokens to 89.5k, and run-to-run variance collapsing from plus or minus 89 cents to plus or minus 8 cents.</desc>
 
 <defs>
   <filter id="rough" x="-4%" y="-4%" width="108%" height="108%">
@@ -124,11 +124,11 @@
   <!-- ⑤ measured — bars draw in -->
   <g stroke-linecap="round">
     <line class="bar" x1="912" y1="512" x2="1152" y2="512" stroke="#c9c4ba" stroke-width="9" stroke-dasharray="240" style="--l:240"/>
-    <line class="bar" x1="912" y1="530" x2="1098" y2="530" stroke="#c2410c" stroke-width="9" stroke-dasharray="186" style="--l:186"/>
+    <line class="bar" x1="912" y1="530" x2="1083" y2="530" stroke="#c2410c" stroke-width="9" stroke-dasharray="171" style="--l:171"/>
     <line class="bar" x1="912" y1="574" x2="1152" y2="574" stroke="#c9c4ba" stroke-width="9" stroke-dasharray="240" style="--l:240"/>
-    <line class="bar" x1="912" y1="592" x2="1095" y2="592" stroke="#c2410c" stroke-width="9" stroke-dasharray="183" style="--l:183"/>
+    <line class="bar" x1="912" y1="592" x2="1074" y2="592" stroke="#c2410c" stroke-width="9" stroke-dasharray="162" style="--l:162"/>
     <line class="bar" x1="912" y1="636" x2="1152" y2="636" stroke="#c9c4ba" stroke-width="9" stroke-dasharray="240" style="--l:240"/>
-    <line class="bar" x1="912" y1="654" x2="1132" y2="654" stroke="#c2410c" stroke-width="9" stroke-dasharray="220" style="--l:220"/>
+    <line class="bar" x1="912" y1="654" x2="934" y2="654" stroke="#c2410c" stroke-width="9" stroke-dasharray="22" style="--l:22"/>
   </g>
 
   <!-- bottom strip separators -->
@@ -200,24 +200,24 @@
   <text class="sm" x="58" y="666">you cannot compress an idea you have not named — altitude, then words, then code</text>
 
   <text class="num" x="800" y="463" text-anchor="middle">5</text>
-  <text class="pt" x="824" y="464">measured</text>
-  <text class="big" x="1226" y="466" text-anchor="end">−23%</text>
-  <text class="lb" x="902" y="526" text-anchor="end">tokens</text>
-  <text class="sm" x="1162" y="516">252k</text>
-  <text class="sm accy" x="1162" y="534">195k</text>
-  <text class="lb" x="902" y="588" text-anchor="end">cost</text>
-  <text class="sm" x="1162" y="578">$3.26</text>
-  <text class="sm accy" x="1162" y="596">$2.48</text>
-  <text class="lb" x="902" y="650" text-anchor="end">turns</text>
-  <text class="sm" x="1162" y="640">330</text>
-  <text class="sm accy" x="1162" y="658">303</text>
+  <text class="pt" x="824" y="464">measured · n=3</text>
+  <text class="big" x="1226" y="466" text-anchor="end">−29%</text>
+  <text class="lb" x="902" y="526" text-anchor="end">cost</text>
+  <text class="sm" x="1162" y="516">$4.74</text>
+  <text class="sm accy" x="1162" y="534">$3.37</text>
+  <text class="lb" x="902" y="588" text-anchor="end">output</text>
+  <text class="sm" x="1162" y="578">132.5k</text>
+  <text class="sm accy" x="1162" y="596">89.5k</text>
+  <text class="lb" x="902" y="650" text-anchor="end">variance</text>
+  <text class="sm" x="1162" y="640">±.89</text>
+  <text class="sm accy" x="1162" y="658">±.08</text>
   <text class="sm" x="790" y="676">the lever is run LENGTH, not message size</text>
 
   <text class="lb" x="58" y="736">1 · four bodies</text>
   <text class="lb" x="232" y="736">2 · one cat</text>
   <text class="lb" x="386" y="736">3 · injected at the tail</text>
   <text class="lb" x="560" y="736">4 · first line · prose · code</text>
-  <text class="lb accy" x="776" y="736">5 · −23% tokens</text>
+  <text class="lb accy" x="776" y="736">5 · −29% cost</text>
   <text class="sm" x="1022" y="718">every prompt</text>
   <text class="sm" x="1022" y="748">once per session</text>
 </g>
