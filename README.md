@@ -218,6 +218,13 @@ Agentic coding worker (Claude Agent SDK, GLM-5.2), identical task both arms:
 wider than this pair's $0.78 gap. Direction reproduced across three studies; the
 magnitude is suggestive, not settled.
 
+**[Read the full report →](docs/BENCHMARK.md)** — three studies, nine
+configurations, 51 runs, ~$205 of model spend. Includes the harness design, the
+threats-to-validity section, the base-contamination failure that invalidated a
+whole round, and the mechanism error that made the first production integration a
+silent no-op. Per-run pull-request links are omitted because they point into
+private repositories, which the report states plainly rather than hiding.
+
 ## Why 23% and not 65%
 
 Caveman advertises "cuts 65% of output tokens (measured)", and measures it honestly —
@@ -280,6 +287,7 @@ nobody turns twice. Deleting a `personas/*.md` file is already the off switch.
 `say less` from [caveman](https://github.com/JuliusBrussee/caveman) by Julius Brussee
 (MIT). `write less` from [ponytail](https://github.com/DietrichGebert/ponytail) by
 Dietrich Gebert (MIT). `detail less` is original. Reducing each plugin to its single
-injectable body is the pattern MithraAI/khazad used to inject both into an SDK worker.
-See [`NOTICE`](NOTICE) for what changed and
+injectable body is a pattern borrowed from a private agent-runtime codebase, which did
+the same reduction to inject both into a Claude Agent SDK worker. See
+[`NOTICE`](NOTICE) for what changed and
 [`LICENSES-THIRD-PARTY.md`](LICENSES-THIRD-PARTY.md) for the upstream license texts.

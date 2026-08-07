@@ -83,6 +83,15 @@ done
 grep -q 'assets/verboseless.svg' README.md || fail "README does not reference the diagram"; ok
 grep -q 'assets/banner.svg' README.md      || fail "README does not reference the banner"; ok
 
+# No operator identifiers anywhere in a public repo — the guard that makes the
+# republished benchmark safe. The needles are assembled from fragments so that this
+# file does not match its own pattern.
+needles="$(printf 'mi%s|kha%s|mel%s' 'thra' 'zad' 'lon')"
+if grep -rIl -iE "$needles" --exclude-dir=.git . >/dev/null 2>&1; then
+  echo "  leaked in: $(grep -rIl -iE "$needles" --exclude-dir=.git . | tr '\n' ' ')" >&2
+  fail "operator identifier leaked into the repo"
+fi; ok
+
 # LICENSE must hold exactly one license, or GitHub's detector gives up and the repo
 # renders "license: not identifiable by github". Upstream texts live elsewhere.
 [ "$(grep -c 'MIT License' LICENSE)" = 1 ] \

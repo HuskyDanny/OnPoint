@@ -22,8 +22,11 @@ commands, a mode-tracker state file, intensity levels and a benchmark suite. The
 persona prose is the only part that changes model behavior, so only that was
 kept — level-filtered to a single baked-in intensity, with the self-referential
 mode names ("caveman", "ponytail") replaced by the axis they implement. This
-extraction pattern is taken from MithraAI/khazad, which did the same reduction to
-inject the two personas into a Claude Agent SDK worker.
+extraction pattern is taken from a private agent-runtime codebase, which did the
+same reduction in order to inject the two personas into a Claude Agent SDK
+worker. The measurements behind this project's headline numbers come from that
+system; the report is republished, with the operator's identifiers removed, in
+docs/BENCHMARK.md.
 
 ────────────────────────────────────────────────────────────────────────────
 
