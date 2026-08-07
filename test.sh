@@ -83,6 +83,14 @@ done
 grep -q 'assets/verboseless.svg' README.md || fail "README does not reference the diagram"; ok
 grep -q 'assets/banner.svg' README.md      || fail "README does not reference the banner"; ok
 
+# LICENSE must hold exactly one license, or GitHub's detector gives up and the repo
+# renders "license: not identifiable by github". Upstream texts live elsewhere.
+[ "$(grep -c 'MIT License' LICENSE)" = 1 ] \
+  || fail "LICENSE contains more than one license — GitHub cannot detect it"; ok
+for who in 'Julius Brussee' 'DietrichGebert'; do
+  grep -q "$who" LICENSES-THIRD-PARTY.md || fail "LICENSES-THIRD-PARTY.md is missing $who"; ok
+done
+
 # ── the installer, which writes into someone else's repo ─────────────────────
 proj="$tmp/proj"; mkdir -p "$proj/.cursor"
 printf 'MY OWN RULES\nnever delete the database.\n' > "$proj/AGENTS.md"

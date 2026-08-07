@@ -280,4 +280,5 @@ nobody turns twice. Deleting a `personas/*.md` file is already the off switch.
 (MIT). `write less` from [ponytail](https://github.com/DietrichGebert/ponytail) by
 Dietrich Gebert (MIT). `detail less` is original. Reducing each plugin to its single
 injectable body is the pattern MithraAI/khazad used to inject both into an SDK worker.
-See [`NOTICE`](NOTICE).
+See [`NOTICE`](NOTICE) for what changed and
+[`LICENSES-THIRD-PARTY.md`](LICENSES-THIRD-PARTY.md) for the upstream license texts.

@@ -13,8 +13,9 @@ personas/03-write-less.md derives from ponytail
   https://github.com/DietrichGebert/ponytail
   Copyright (c) 2026 Dietrich Gebert — MIT License
 
-Both upstreams are MIT licensed. Their full license text is reproduced in
-LICENSE alongside this work's own.
+Both upstreams are MIT licensed. Their full license texts are reproduced in
+LICENSES-THIRD-PARTY.md — kept out of LICENSE so that GitHub's license detector
+sees a single unambiguous MIT and labels the repository correctly.
 
 What was changed: each upstream ships an installer, a CLI, a statusline, slash
 commands, a mode-tracker state file, intensity levels and a benchmark suite. The
