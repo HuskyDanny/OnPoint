@@ -1,0 +1,31 @@
+verboseless-all-in-one
+Copyright (c) 2026 Allen Pan
+
+This work is a derivative that merges three sources into one plugin.
+
+────────────────────────────────────────────────────────────────────────────
+
+personas/02-say-less.md derives from caveman
+  https://github.com/JuliusBrussee/caveman
+  Copyright (c) 2026 Julius Brussee — MIT License
+
+personas/03-write-less.md derives from ponytail
+  https://github.com/DietrichGebert/ponytail
+  Copyright (c) 2026 Dietrich Gebert — MIT License
+
+Both upstreams are MIT licensed. Their full license text is reproduced in
+LICENSE alongside this work's own.
+
+What was changed: each upstream ships an installer, a CLI, a statusline, slash
+commands, a mode-tracker state file, intensity levels and a benchmark suite. The
+persona prose is the only part that changes model behavior, so only that was
+kept — level-filtered to a single baked-in intensity, with the self-referential
+mode names ("caveman", "ponytail") replaced by the axis they implement. This
+extraction pattern is taken from MithraAI/khazad, which did the same reduction to
+inject the two personas into a Claude Agent SDK worker.
+
+────────────────────────────────────────────────────────────────────────────
+
+personas/01-detail-less.md is original to this work. It has no upstream — it
+began as a local Claude Code SessionStart hook and its few-shot examples were
+genericized for publication.
