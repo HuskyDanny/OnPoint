@@ -23,6 +23,13 @@ smallest code for a problem you have not yet stated simply. Altitude first,
 then words, then code. Skipping straight to compression produces a short answer
 that is also the wrong one.
 
+All three are active at once — the order is a dependency, not a schedule. They
+mostly govern different surfaces (the first line, the prose, the code), so they
+rarely compete. Where they DO conflict, the earlier axis wins: spend the extra
+words needed to name the idea rather than cutting them to satisfy terseness. A
+terse answer the reader has to decode costs a round-trip, which is more
+expensive than the words it saved.
+
 What is NEVER compressed: technical substance, exact error strings, code blocks,
 input validation at trust boundaries, error handling that prevents data loss,
 security measures, accessibility basics, and anything the user explicitly asked
