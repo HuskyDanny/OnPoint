@@ -64,4 +64,12 @@ bodies_b=$(bash hooks/inject.sh | wc -c | tr -d ' ')
 python3 -c 'import json; [json.load(open(f)) for f in ["hooks/hooks.json",".claude-plugin/plugin.json",".claude-plugin/marketplace.json"]]' \
   || fail "invalid JSON in a manifest"
 
-echo "OK — 3 axes emit, --line is 1 line, degrades safely, style is a ${style_b}B role statement vs ${bodies_b}B rulebook, JSON valid"
+# 8. The README diagram parses and is actually referenced. A duplicate attribute or
+#    stray tag makes GitHub render nothing at all, with no error anywhere.
+python3 -c 'import xml.dom.minidom; xml.dom.minidom.parse("assets/verboseless.svg")' \
+  || fail "assets/verboseless.svg is not valid XML"
+grep -q 'assets/verboseless.svg' README.md || fail "README does not reference the diagram"
+grep -q '@keyframes' assets/verboseless.svg || fail "diagram lost its animation"
+grep -q 'prefers-reduced-motion' assets/verboseless.svg || fail "diagram must honour reduced-motion"
+
+echo "OK — 3 axes emit, --line is 1 line, degrades safely, style is a ${style_b}B role statement vs ${bodies_b}B rulebook, JSON valid, diagram parses"

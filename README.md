@@ -1,111 +1,79 @@
+<p align="center">
+  <img src="assets/verboseless.svg" alt="verboseless: four persona bodies on disk, cat'd by one hook into the tail of the context on every prompt, where three axes govern the first line, the prose and the code" width="100%">
+</p>
+
 # verboseless
 
-Three axes of compression on one switch: **think at altitude, say it terse, build
-the smallest thing that works.** Substance is never compressed.
+Think at altitude, say it terse, build the smallest thing that works. Substance is
+never compressed.
 
 > Everything can be abstract. Einstein could state relativity in one sentence; a
 > person who truly knows a thing explains it simply.
-
-## Install
 
 ```
 /plugin marketplace add HuskyDanny/verboseless-all-in-one
 /plugin install verboseless@verboseless
 ```
 
-Then start a new session. You should see `VERBOSELESS ACTIVE` in the SessionStart
-context. Turn it off for a turn with "stop verboseless" / "normal mode".
+New session → `VERBOSELESS ACTIVE` in context. Off: "stop verboseless".
 
-## The three axes
+## Three axes
 
-| file | axis | forces |
+| governs | behave like | body |
 |---|---|---|
-| `personas/01-detail-less.md` | **detail less** | open with the big idea at design altitude; verdict first on a pointed question; no file paths or numbered plans in the first line |
-| `personas/02-say-less.md` | **say less** | drop articles, filler, pleasantries, hedging, tool-call narration; exact errors and code stay verbatim |
-| `personas/03-write-less.md` | **write less** | YAGNI ladder — does it need to exist, is it already here, does stdlib do it, can it be one line |
+| the **first line** of any answer | abstract first | `01-detail-less.md` |
+| everything you **say** | caveman | `02-say-less.md` |
+| everything you **write** | ponytail | `03-write-less.md` |
 
-The order is load-bearing. You cannot compress an idea you have not named, and
-you cannot write the smallest code for a problem you have not stated simply.
-Altitude, then words, then code.
+Order is load-bearing: you cannot compress an idea you have not named. Altitude,
+then words, then code.
 
-`personas/00-doctrine.md` carries the shared preamble and the never-compress list:
-technical substance, exact error strings, code, trust-boundary validation, error
-handling that prevents data loss, security, accessibility, and anything the user
-explicitly asked for in full.
+`00-doctrine.md` holds the never-compress list — substance, exact errors, code,
+trust-boundary validation, data-loss handling, security, accessibility, anything
+asked for in full.
 
-## How it works
+## How
 
-Hooks in Claude Code are commands, and for `SessionStart`, `UserPromptSubmit` and
-`SubagentStart` **whatever a command prints on stdout becomes context Claude
-sees.** So the entire mechanism is a `cat`:
+`SessionStart`, `UserPromptSubmit` and `SubagentStart` accept **plain stdout** as
+context. So the mechanism is a `cat`:
 
 ```bash
 cat "$root"/personas/*.md
 ```
 
-Glob order is the axis order. Renaming a file reorders an axis; deleting one turns
-it off. There is no config file, no environment variable, no state file, and no
-interpreter — nothing to parse means nothing to get wrong.
+Glob order is the axis order. Rename to reorder, delete to disable. No config, no
+env var, no state file, no interpreter.
 
-### Why a hook and not CLAUDE.md
+**Hook, not `CLAUDE.md`** — same words, different position. `CLAUDE.md` sits in the
+cached system prefix: said once at the head, decaying as the transcript grows past
+it. A hook lands at the **tail**, beside the live turn, re-fired every prompt and
+after every compaction. The repetition is the forcing function.
 
-Same words, different position. `CLAUDE.md` sits in the cached system prefix —
-stated once at the head, its salience decaying as the transcript grows. A hook's
-output lands as a system message at the **tail**, re-fired on every prompt and
-again on every compaction. Repetition next to the live turn is what actually
-holds the behavior.
+`UserPromptSubmit` gets one line, not the bodies — a full copy per prompt would
+stack into the re-sent context, which is the pool this exists to shrink.
+`SubagentStart` gets the full bodies: a subagent's report *is* the parent's context,
+so compressing it pays twice. Ponytail injects into subagents upstream, caveman does
+not; that reads as an omission, not a decision.
 
-### The injection budget
-
-| event | payload | why |
-|---|---|---|
-| `SessionStart` (`startup\|resume\|clear\|compact`) | full bodies | first turn, and re-fires after compaction |
-| `UserPromptSubmit` | one line | the full bodies here would stack one copy per prompt into the re-sent context — the exact cost pool this repo exists to shrink |
-| `SubagentStart` | full bodies | a subagent's report *is* the parent's context, so compressing it pays twice |
-
-That last row diverges from upstream on purpose: ponytail injects into subagents,
-caveman does not. Caveman's absence there reads as an omission rather than a
-decision — a verbose subagent report is billed to the parent for the rest of the
-run.
-
-## The output style — the role, not the rules
-
-`output-styles/verboseless.md` is the second surface, and it deliberately carries
-**different content at a different altitude**. The output style says *who you are
-and which behavior governs which surface*; the hook bodies say *exactly how*.
+## Two surfaces, two altitudes
 
 ```
-                  OUTPUT STYLE  (role)              HOOK  (rules)
-position          end of system prompt, cached       tail, next to the live turn
-size              3.7 KB                            12.1 KB
-answers           "which behavior, on what"          "and here is every rule"
-reinforced        natively, by Claude Code           re-fired on prompt + compaction
-reaches subagents no — they run their own prompt     yes, via SubagentStart
+OUTPUT STYLE  3.7 KB  end of system prompt    the ROLE  — which behavior, what surface
+HOOK BODIES  12.1 KB  tail of the transcript  the RULES — and here is every one
 ```
 
-Enable it with `/config` → **Output style** → `Verboseless`. The whole style is
-one routing table plus its consequences:
+Different content, so they never duplicate. Enable the style with `/config` →
+**Output style** → `Verboseless`.
 
-| surface | behave like | means |
-|---|---|---|
-| the **first line** of any answer | abstract first | name the big idea, then stop |
-| everything you **say** | caveman | terse prose, no filler |
-| everything you **write** | ponytail | the laziest code that works |
+- **Exclusive** — one style at a time, so it replaces yours. `force-for-plugin` is
+  deliberately unset, so installing never hijacks your choice.
+- **Hand-written, never generated** — the moment the same text sits in both the
+  system prompt and the tail, you pay twice for one instruction. `test.sh` fails if
+  the style grows past half the bodies.
 
-Two things to know:
+## Measured
 
-- **It is exclusive.** Only one output style is active at a time, so selecting
-  this one replaces whatever you had. `force-for-plugin` is deliberately *not*
-  set in the frontmatter, so installing this plugin never hijacks your choice.
-- **It is hand-written, not generated.** It is not a copy of `personas/`, and it
-  must never become one — the moment the same text sits in both the system prompt
-  and the tail, you are paying twice for one instruction. `test.sh` enforces this:
-  the style must stay under half the size of the bodies.
-
-## Does it actually work
-
-Measured on an agentic coding swarm (Claude Agent SDK worker, GLM-5.2, dev EKS),
-combining the say-less and write-less axes against an identical task:
+Agentic coding worker (Claude Agent SDK, GLM-5.2), identical task both arms:
 
 | | baseline | verboseless | Δ |
 |---|---|---|---|
@@ -114,16 +82,45 @@ combining the say-less and write-less axes against an identical task:
 | turns | 330 | 303 | −8.2% |
 | `Read` calls | 30 | 16 | −47% |
 
-**The mechanism is not what it looks like.** About two-thirds of every run's cost
-is *cache-read of re-sent context*, so the lever is **run length**, not per-message
-size. These personas win by finishing in fewer turns, not by making each message
-shorter. That is also why an input-command compressor tested alongside them landed
-dead-even with baseline: it attacked the wrong cost pool.
+**n=1 per arm.** Within-arm spread on a repeated identical task was $3.23–$5.52,
+wider than this pair's $0.78 gap. Direction reproduced across three studies; the
+magnitude is suggestive, not settled.
 
-Caveats worth stating plainly: n=1 per arm, and within-arm spread on a repeated
-identical task was measured at $3.23–$5.52 — wider than this pair's $0.78 gap. The
-direction has now reproduced across three studies; treat the magnitude as
-suggestive.
+## Why 23% and not 60%
+
+Caveman's ~60% headline is honestly measured — on a one-shot CLI reply, where the
+reply **is** the bill. On an agentic run it is not:
+
+```
+baseline run cost = $5.66
+  fresh input     $0.52    9.1%
+  cache-read      $4.47   79.1%   ← re-sent context
+  output          $0.67   11.8%   ← all a terseness persona can touch
+```
+
+Output is the ceiling, and it is 11.8%. Cut 60% of it → save 7.1%. Cut *all* of it →
+save 11.8%. So 23% cannot come from terser messages; it exceeds the ceiling. It
+comes from the run being shorter:
+
+```
+output tokens   87,563 → 66,319   −24.3%
+input  tokens  164,476 → 128,510  −21.9%   ← the real saving
+turns              330 → 303       −8.2%
+Read calls          30 →  16      −46.7%
+```
+
+Every avoided turn deletes a full re-send of the cached context, ~$0.03–0.04 each.
+Two compressions stack to explain the gap: terseness only compresses **prose**, and
+prose is a minority of output (reasoning alone ~⅔); output is a minority of cost.
+Sixty percent off a slice of a slice lands in single digits.
+
+The uncomfortable corollary: **ponytail carries most of this, not caveman.** Ponytail
+removes whole turns — don't build the speculative thing, don't re-read what you
+already read. Turns are what the bill is made of.
+
+Judge any future optimization by whether it **shortens the run**. An input-command
+compressor tested alongside these landed dead-even with baseline for exactly that
+reason.
 
 ## Test
 
@@ -131,32 +128,21 @@ suggestive.
 ./test.sh
 ```
 
-Checks that all three axes emit, that the per-prompt line stays exactly one line,
-that a missing or absent `personas/` degrades gracefully instead of breaking a
-session, that the output style has valid frontmatter and stays a role statement
-rather than a copy of the bodies, and that every manifest is valid JSON.
+Ten invariants — axes emit, the per-prompt line stays one line, an absent
+`personas/` degrades instead of breaking a session, the style stays a role
+statement, manifests and the diagram parse. All ten RED-verified.
 
-## What was deliberately left out
+## Left out
 
-Intensity levels (`lite`/`full`/`ultra`), slash commands, a statusline, a
-mode-tracker state file, an installer, a `VERBOSELESS` environment variable, an
-SDK injector, and rule files for other agents.
-
-Every one of those exists upstream and every one is a knob nobody turns twice.
-Deleting a `personas/*.md` file is already the off switch, so a second selection
-mechanism would have bought nothing but the JavaScript needed to parse it. Add
-levels back when you actually want to run an ablation.
-
-There is also no build step. The output style was briefly generated from
-`personas/` by a `make-style.sh`, which is exactly what made the two surfaces
-duplicates of each other. Giving the style its own altitude removed the
-generator, the derived file, and the drift check in one move.
+Intensity levels, slash commands, a statusline, a mode-tracker state file, an
+installer, a `VERBOSELESS` env var, an SDK injector, other-agent rule files, a build
+step. All exist upstream; all are knobs nobody turns twice. Deleting a
+`personas/*.md` file is already the off switch.
 
 ## Credit
 
-`say less` derives from [caveman](https://github.com/JuliusBrussee/caveman) by
-Julius Brussee (MIT). `write less` derives from
+`say less` from [caveman](https://github.com/JuliusBrussee/caveman) by Julius
+Brussee (MIT). `write less` from
 [ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert (MIT).
-`detail less` is original. The pattern of reducing each plugin to its single
-injectable body comes from MithraAI/khazad, which did it to inject both personas
-into an SDK worker. See `NOTICE`.
+`detail less` is original. Reducing each plugin to its single injectable body is the
+pattern MithraAI/khazad used to inject both into an SDK worker. See `NOTICE`.
