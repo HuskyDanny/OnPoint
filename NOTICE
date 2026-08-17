@@ -8,28 +8,43 @@ This work is a derivative that merges three sources into one plugin.
 personas/02-say-less.md derives from caveman
   https://github.com/JuliusBrussee/caveman
   Copyright (c) 2026 Julius Brussee — MIT License
+  That repository is split-licensed: its skills/ prose, which is what was taken,
+  is MIT; its engine-linked directories are BSL-1.1.
 
-personas/03-write-less.md derives from ponytail
-  https://github.com/DietrichGebert/ponytail
-  Copyright (c) 2026 Dietrich Gebert — MIT License
+personas/01-essence-first.md, section "Then the action", derives from i-have-adhd
+  https://github.com/ayghri/i-have-adhd
+  Copyright (c) 2026 Ayoub Ghriss — MIT License
 
-Both upstreams are MIT licensed. Their full license texts are reproduced in
+Both bodies taken are MIT licensed. Their full license texts are reproduced in
 LICENSES-THIRD-PARTY.md — kept out of LICENSE so that GitHub's license detector
 sees a single unambiguous MIT and labels the repository correctly.
 
-What was changed: each upstream ships an installer, a CLI, a statusline, slash
-commands, a mode-tracker state file, intensity levels and a benchmark suite. The
-persona prose is the only part that changes model behavior, so only that was
-kept — level-filtered to a single baked-in intensity, with the self-referential
-mode names ("caveman", "ponytail") replaced by the axis they implement. This
-extraction pattern is taken from a private agent-runtime codebase, which did the
-same reduction in order to inject the two personas into a Claude Agent SDK
-worker. The measurements behind this project's headline numbers come from that
-system; the report is republished, with the operator's identifiers removed, in
-docs/BENCHMARK.md.
+What was changed: between them the upstreams ship an installer, a CLI, a
+statusline, slash commands, a mode-tracker state file, intensity levels, evals
+and a benchmark suite. The persona prose is the only part that changes model
+behavior, so only that was kept — one baked-in intensity, with the
+self-referential mode-switching prose ("stop adhd mode", intensity levels,
+statusline tags) dropped. Each upstream is still named where its rules begin, so
+a reader of the injected text can tell which behaviour came from where. i-have-adhd is folded into the second half of the essence-first axis
+rather than shipping as its own body, because the two answer the same question
+from opposite ends: one names the idea, the other names the move it implies.
+One deliberate inversion: upstream i-have-adhd puts the next action on the first
+line, and here the altitude line owns the opening with the action directly
+beneath it. This extraction pattern is taken from a private agent-runtime
+codebase, which did the same reduction in order to inject personas into a Claude
+Agent SDK worker. The measurements behind this project's headline numbers come
+from that system; the report is republished, with the operator's identifiers
+removed, in docs/BENCHMARK.md.
+
+A third source, ponytail (https://github.com/DietrichGebert/ponytail, MIT,
+Copyright (c) 2026 Dietrich Gebert), supplied a "write less" axis in earlier
+versions. It was removed when the axes were re-cut around how an answer is
+shaped rather than how code is built; no ponytail-derived text remains, so it is
+no longer carried in LICENSES-THIRD-PARTY.md. docs/BENCHMARK.md still reports it
+as a benchmarked arm, which is a record of what was measured, not shipped code.
 
 ────────────────────────────────────────────────────────────────────────────
 
-personas/01-detail-less.md is original to this work. It has no upstream — it
-began as a local Claude Code SessionStart hook and its few-shot examples were
-genericized for publication.
+The first half of personas/01-essence-first.md — "the big idea first" — is
+original to this work. It has no upstream: it began as a local Claude Code
+SessionStart hook and its few-shot examples were genericized for publication.

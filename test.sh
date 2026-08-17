@@ -13,8 +13,9 @@ tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 
 # ── the hook ─────────────────────────────────────────────────────────────────
 bash hooks/inject.sh | grep -q 'VERBOSELESS ACTIVE' || fail "inject.sh emitted no doctrine"; ok
-for axis in 'Detail less' 'Say less' 'Write less'; do
-  bash hooks/inject.sh | grep -q "$axis" || fail "inject.sh missing axis: $axis"; ok
+# Two axes; the second of these is a section inside the first, not a third axis.
+for section in 'Essence first' 'i-have-adhd' 'Say less'; do
+  bash hooks/inject.sh | grep -q "$section" || fail "inject.sh missing section: $section"; ok
 done
 
 # The per-prompt reinforcement must stay one line — the whole reason
@@ -45,13 +46,20 @@ assert keys.get("description", "").strip(), "description is required for the /co
 assert keys.get("keep-coding-instructions", "").strip() == "true", "keep-coding-instructions must be true"
 PY
 ok
-for behavior in 'Abstract first' 'Caveman when you talk' 'Ponytail when you write' 'Never compressed'; do
+# All three source personas must be NAMED here — the style is the role statement,
+# so naming two and leaving one as a description is how a surface drifts.
+for behavior in 'Abstract first' 'i-have-adhd' 'Caveman when you talk' 'Never compressed'; do
   grep -q "$behavior" "$STYLE" || fail "output-style missing behavior: $behavior"; ok
 done
 style_b=$(wc -c < "$STYLE" | tr -d ' ')
 bodies_b=$(bash hooks/inject.sh | wc -c | tr -d ' ')
 [ "$style_b" -lt $((bodies_b / 2)) ] \
   || fail "output-style is ${style_b}B vs bodies ${bodies_b}B — it became a copy, so the system prompt and the tail now both carry it"; ok
+
+# The ratio above gets EASIER to pass as the bodies grow, so it cannot catch bloat.
+# This is the absolute budget: a repo about compression may not ship a fat prompt.
+[ "$bodies_b" -lt 12500 ] \
+  || fail "bodies are ${bodies_b}B, past the 12500B budget — cut before adding"; ok
 
 # ── generated agent surfaces are in sync with personas/ ──────────────────────
 ./build.sh "$tmp/build" >/dev/null
@@ -69,6 +77,27 @@ python3 -c 'import json; [json.load(open(f)) for f in [
   "gemini-extension.json",".codex/hooks.json",
   ".codex-plugin/plugin.json",".devin-plugin/plugin.json",".qoder-plugin/plugin.json"]]' \
   || fail "invalid JSON in a manifest"; ok
+
+# Every plugin manifest must POINT at a hook file that exists. Dropping the key is
+# how a marketplace install silently stops injecting — valid JSON, zero behavior.
+python3 - <<'PY' || fail "a plugin manifest does not point at an existing hook file"
+import json, os
+for m in [".claude-plugin/plugin.json", ".codex-plugin/plugin.json",
+          ".devin-plugin/plugin.json", ".qoder-plugin/plugin.json"]:
+    h = json.load(open(m)).get("hooks")
+    assert h, f"{m} has no hooks key — the plugin install would inject nothing"
+    assert os.path.isfile(h.removeprefix("./")), f"{m} points at a missing {h}"
+
+# Same silent-no-injection class, one layer down: the hook file's own command, and
+# Gemini's context file, must exist too. Valid JSON, zero behavior, no error.
+for ev in json.load(open("hooks/hooks.json"))["hooks"].values():
+    for group in ev:
+        for hook in group["hooks"]:
+            script = hook["command"].split("/hooks/")[-1].split()[0]
+            assert os.path.isfile("hooks/" + script), f"hook command missing: {script}"
+assert os.path.isfile(json.load(open("gemini-extension.json"))["contextFileName"])
+PY
+ok
 
 # The Codex hook payload has to survive JSON quoting AND shell quoting.
 codex_cmd=$(python3 -c 'import json;print(json.load(open(".codex/hooks.json"))["hooks"]["SessionStart"][0]["hooks"][0]["command"])')
@@ -96,7 +125,7 @@ fi; ok
 # renders "license: not identifiable by github". Upstream texts live elsewhere.
 [ "$(grep -c 'MIT License' LICENSE)" = 1 ] \
   || fail "LICENSE contains more than one license — GitHub cannot detect it"; ok
-for who in 'Julius Brussee' 'DietrichGebert'; do
+for who in 'Julius Brussee' 'Ayoub Ghriss'; do
   grep -q "$who" LICENSES-THIRD-PARTY.md || fail "LICENSES-THIRD-PARTY.md is missing $who"; ok
 done
 

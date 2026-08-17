@@ -2,8 +2,8 @@
 # Claude Code hook. SessionStart, UserPromptSubmit and SubagentStart all accept
 # plain stdout as context, so this is a cat — no JSON, no escaping, no interpreter.
 #
-# Glob order IS the axis order: 00-doctrine, 01-detail-less, 02-say-less,
-# 03-write-less. Renaming or deleting a file is how you reorder or disable an axis.
+# Glob order IS the axis order: 00-doctrine, 01-essence-first, 02-say-less.
+# Renaming or deleting a file is how you reorder or disable an axis.
 # There is no config to read.
 #
 # --line emits the one-line reinforcement instead of the full bodies. Full bodies
@@ -14,7 +14,7 @@ set -uo pipefail
 root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 
 if [ "${1:-}" = "--line" ]; then
-  echo "VERBOSELESS ACTIVE — detail less (big idea first, verdict first), say less (terse, no filler), write less (YAGNI, stdlib first). Substance, security and exact errors never compressed."
+  echo "VERBOSELESS ACTIVE — essence first (name the essence, verdict first, then the one next action), say less (terse, no filler). Substance, security and exact errors never compressed."
   exit 0
 fi
 

@@ -1,13 +1,17 @@
 # Third-party licenses
 
-`LICENSE` covers this work. Two persona bodies derive from MIT-licensed
+`LICENSE` covers this work. Two persona sections derive from MIT-licensed
 upstreams; their license texts are reproduced in full below. See `NOTICE` for
-what was changed.
+what was changed, including the ponytail axis that earlier versions carried and
+this one no longer does.
 
 ---
 
 Portions of personas/02-say-less.md derive from caveman
-(https://github.com/JuliusBrussee/caveman):
+(https://github.com/JuliusBrussee/caveman). That repository is split-licensed —
+its LICENSING.md classifies `skills/` as MIT and its engine-linked directories
+(`engine/`, `proxy/`, `rewriter/`, `mcp/`, and others) as BSL-1.1. The prose
+taken here comes from `skills/`, so the MIT text below governs it:
 
 MIT License
 
@@ -33,12 +37,12 @@ SOFTWARE.
 
 ---
 
-Portions of personas/03-write-less.md derive from ponytail
-(https://github.com/DietrichGebert/ponytail):
+Portions of personas/01-essence-first.md, the section "Then the action", derive
+from i-have-adhd (https://github.com/ayghri/i-have-adhd):
 
 MIT License
 
-Copyright (c) 2026 DietrichGebert
+Copyright (c) 2026 Ayoub Ghriss
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

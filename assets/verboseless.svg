@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" width="1280" height="780"
-     role="img" aria-label="How verboseless works: three persona bodies on disk are cat'd by one hook into the tail of the context on every prompt, where three axes govern the first line, the prose and the code — measured 23 percent fewer tokens.">
-<title>verboseless — three axes, one cat</title>
-<desc>Five panels. One: four markdown bodies on disk totalling 12.1 KB. Two: one hook script cats them; all three hook events accept plain stdout as context. Three: the injection lands at the tail of the context next to the live turn and is re-fired, whereas CLAUDE.md sits once at the head and decays. Four: the three axes govern the first line, everything you say, and everything you write, in that order. Five: measured across three runs per arm, cost $4.74 to $3.37 per delivery, output 132.5k tokens to 89.5k, and run-to-run variance collapsing from plus or minus 89 cents to plus or minus 8 cents.</desc>
+     role="img" aria-label="How verboseless works: three persona bodies on disk are cat'd by one hook into the tail of the context on every prompt, where two axes govern the shape of the answer and the words inside it.">
+<title>verboseless — two axes, one cat</title>
+<desc>Five panels. One: three markdown bodies on disk totalling 11.7 KB. Two: one hook script cats them; all three hook events accept plain stdout as context. Three: the injection lands at the tail of the context next to the live turn and is re-fired, whereas CLAUDE.md sits once at the head and decays. Four: three personas govern the first line, the next line, and everything you say, in that order — abstract first names the idea, i-have-adhd names the next action, caveman deletes the filler. Five: a measurement of the arm this repo shipped previously, ponytail plus caveman, across three runs per arm: cost $4.74 to $3.37 per delivery, output 132.5k tokens to 89.5k, and run-to-run variance collapsing from plus or minus 89 cents to plus or minus 8 cents. That arm is no longer what ships.</desc>
 
 <defs>
   <filter id="rough" x="-4%" y="-4%" width="108%" height="108%">
@@ -48,7 +48,7 @@
     .ring { transform-origin:center; animation:ring 2.4s ease-out infinite; }
     @keyframes ring { 0% {opacity:.9; transform:scale(.9);} 70%,100% {opacity:0; transform:scale(1.5);} }
 
-    /* the three axes light up in order: think, then speak, then build */
+    /* the three personas light up in order: idea, then move, then words */
     .ax { opacity:.6; animation:ax 6s ease-in-out infinite; }
     .ax1 { animation-delay:0s; } .ax2 { animation-delay:1.1s; } .ax3 { animation-delay:2.2s; }
     @keyframes ax { 0%,4% {opacity:.6;} 12%,30% {opacity:1;} 45%,100% {opacity:.6;} }
@@ -82,7 +82,7 @@
 
   <g class="ink"><circle cx="66" cy="130" r="13"/><circle cx="342" cy="130" r="13"/><circle cx="682" cy="130" r="13"/><circle cx="66" cy="458" r="13"/><circle cx="800" cy="458" r="13"/></g>
 
-  <!-- ① four bodies on disk -->
+  <!-- ① three bodies on disk, plus the summary chip -->
   <rect class="chip" x="58" y="158" width="222" height="38" rx="7"/>
   <rect class="chip" x="58" y="204" width="222" height="38" rx="7"/>
   <rect class="chip" x="58" y="250" width="222" height="38" rx="7"/>
@@ -115,7 +115,7 @@
   <path class="thin" d="M916 182 L946 182"/>
   <path class="acc" d="M916 355 L946 355"/>
 
-  <!-- ④ three axes -->
+  <!-- ④ three personas -->
   <g class="ax ax1"><rect class="chip" x="58" y="490" width="176" height="40" rx="7"/><rect class="accfill" x="262" y="490" width="144" height="40" rx="7"/><path class="acc" d="M238 510 L258 510" marker-end="url(#aha)"/></g>
   <g class="ax ax2"><rect class="chip" x="58" y="546" width="176" height="40" rx="7"/><rect class="accfill" x="262" y="546" width="144" height="40" rx="7"/><path class="acc" d="M238 566 L258 566" marker-end="url(#aha)"/></g>
   <g class="ax ax3"><rect class="chip" x="58" y="602" width="176" height="40" rx="7"/><rect class="accfill" x="262" y="602" width="144" height="40" rx="7"/><path class="acc" d="M238 622 L258 622" marker-end="url(#aha)"/></g>
@@ -145,16 +145,16 @@
 <!-- ══════════════ text (crisp) ══════════════ -->
 <g>
   <text class="h1" x="40" y="52">verboseless</text>
-  <text class="sub" x="238" y="52">three axes, one cat</text>
-  <text class="sm" x="1240" y="38" text-anchor="end">detail less · say less · write less</text>
+  <text class="sub" x="238" y="52">two axes, one cat</text>
+  <text class="sm" x="1240" y="38" text-anchor="end">essence first · say less</text>
   <text class="sm" x="1240" y="56" text-anchor="end">claude code plugin · MIT</text>
 
   <text class="num" x="66" y="135" text-anchor="middle">1</text>
   <text class="pt" x="90" y="136">on disk</text>
-  <text class="lb" x="70" y="182">00-doctrine.md</text>          <text class="sm" x="270" y="182" text-anchor="end">1.3 KB</text>
-  <text class="lb" x="70" y="228">01-detail-less.md</text>       <text class="sm" x="270" y="228" text-anchor="end">3.5 KB</text>
-  <text class="lb" x="70" y="274">02-say-less.md</text>          <text class="sm" x="270" y="274" text-anchor="end">2.5 KB</text>
-  <text class="lb" x="70" y="320">03-write-less.md</text>        <text class="sm" x="270" y="320" text-anchor="end">4.8 KB</text>
+  <text class="lb" x="70" y="182">00-doctrine.md</text>          <text class="sm" x="270" y="182" text-anchor="end">1.9 KB</text>
+  <text class="lb" x="70" y="228">01-essence-first.md</text>       <text class="sm" x="270" y="228" text-anchor="end">6.5 KB</text>
+  <text class="lb" x="70" y="274">02-say-less.md</text>          <text class="sm" x="270" y="274" text-anchor="end">3.3 KB</text>
+  <text class="sm" x="70" y="320">3 personas · 2 axes · 11.7 KB</text>
   <text class="sm" x="58" y="356">glob order IS the axis order</text>
   <text class="sm" x="58" y="374">delete a file = that axis off</text>
   <text class="sm" x="58" y="392">no config · no env var · no state</text>
@@ -170,7 +170,7 @@
   <text class="sm" x="620" y="308" text-anchor="end">1 line · per prompt</text>
   <text class="lb" x="378" y="350">SubagentStart</text>
   <text class="sm" x="620" y="350" text-anchor="end">full · per subagent</text>
-  <text class="sm" x="334" y="392">21 lines, of which one is the mechanism</text>
+  <text class="sm" x="334" y="392">22 lines, of which one is the mechanism</text>
 
   <text class="num" x="682" y="135" text-anchor="middle">3</text>
   <text class="pt" x="706" y="136">where it lands — the tail, not the head</text>
@@ -179,7 +179,7 @@
   <text class="sm" x="730" y="240">turn 1</text>
   <text class="sm" x="730" y="318">turn N</text>
   <text class="lb accy refire" x="752" y="352">verboseless, re-injected</text>
-  <text class="sm accy refire" x="752" y="370">12.1 KB, beside the live turn</text>
+  <text class="sm accy refire" x="752" y="370">11.7 KB, beside the live turn</text>
 
   <text class="lb" x="952" y="174">stated ONCE, at the head</text>
   <text class="sm" x="952" y="192">cached — salience decays as</text>
@@ -190,17 +190,17 @@
   <text class="sm" x="666" y="400">same words · different position · the repetition is the forcing function</text>
 
   <text class="num" x="66" y="463" text-anchor="middle">4</text>
-  <text class="pt" x="90" y="464">three axes, three surfaces — in this order</text>
+  <text class="pt" x="90" y="464">three personas, three surfaces — in this order</text>
   <text class="lb" x="70" y="515">the FIRST LINE</text>       <text class="lb accy" x="274" y="515">abstract first</text>
   <text class="sm" x="434" y="509">name the big idea</text>   <text class="sm" x="434" y="525">then stop, and let them pull detail</text>
-  <text class="lb" x="70" y="571">everything you SAY</text>   <text class="lb accy" x="274" y="571">caveman</text>
-  <text class="sm" x="434" y="565">terse prose, no filler</text> <text class="sm" x="434" y="581">exact errors stay verbatim</text>
-  <text class="lb" x="70" y="627">everything you WRITE</text> <text class="lb accy" x="274" y="627">ponytail</text>
-  <text class="sm" x="434" y="621">the laziest code that works</text> <text class="sm" x="434" y="637">root cause, not the one path named</text>
-  <text class="sm" x="58" y="666">you cannot compress an idea you have not named — altitude, then words, then code</text>
+  <text class="lb" x="70" y="571">the NEXT LINE</text>        <text class="lb accy" x="274" y="571">i-have-adhd</text>
+  <text class="sm" x="434" y="565">the one thing to do now</text> <text class="sm" x="434" y="581">numbered if there are several</text>
+  <text class="lb" x="70" y="627">everything you SAY</text>   <text class="lb accy" x="274" y="627">caveman</text>
+  <text class="sm" x="434" y="621">terse prose, no filler</text> <text class="sm" x="434" y="637">exact errors stay verbatim</text>
+  <text class="sm" x="58" y="666">you cannot compress an idea you have not named — altitude, then the move, then the words</text>
 
   <text class="num" x="800" y="463" text-anchor="middle">5</text>
-  <text class="pt" x="824" y="464">measured · n=3</text>
+  <text class="pt" x="824" y="464">measured · n=3 · prior arm</text>
   <text class="big" x="1226" y="466" text-anchor="end">−29%</text>
   <text class="lb" x="902" y="526" text-anchor="end">cost</text>
   <text class="sm" x="1162" y="516">$4.74</text>
@@ -211,13 +211,13 @@
   <text class="lb" x="902" y="650" text-anchor="end">variance</text>
   <text class="sm" x="1162" y="640">±.89</text>
   <text class="sm accy" x="1162" y="658">±.08</text>
-  <text class="sm" x="790" y="676">the lever is run LENGTH, not message size</text>
+  <text class="sm" x="790" y="676">ponytail + caveman, the cut this repo shipped before</text>
 
-  <text class="lb" x="58" y="736">1 · four bodies</text>
+  <text class="lb" x="58" y="736">1 · three bodies</text>
   <text class="lb" x="232" y="736">2 · one cat</text>
   <text class="lb" x="386" y="736">3 · injected at the tail</text>
-  <text class="lb" x="560" y="736">4 · first line · prose · code</text>
-  <text class="lb accy" x="776" y="736">5 · −29% cost</text>
+  <text class="lb" x="560" y="736">4 · first line · next line · prose</text>
+  <text class="lb accy" x="776" y="736">5 · −29% (prior arm)</text>
   <text class="sm" x="1022" y="718">every prompt</text>
   <text class="sm" x="1022" y="748">once per session</text>
 </g>

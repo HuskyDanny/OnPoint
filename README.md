@@ -1,15 +1,14 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="verboseless — big idea, fewer words, less code" width="720">
+  <img src="assets/banner.svg" alt="verboseless — big idea, next action, fewer words" width="720">
 </p>
 
 <p align="center">
-  <strong>say the big thing first, then say less, then write less</strong>
+  <strong>say the big thing first, then the one next action, then say less</strong>
 </p>
 
 <p align="center">
-  Three axes on one switch, for any AI coding agent.<br>
-  Same answers. <strong>29% cheaper</strong> on <a href="#benchmarks">long-horizon agentic runs</a><br>
-  across three runs per arm — because the lever is run <em>length</em>, not message size.<br>
+  Two axes on one switch, for any AI agent.<br>
+  The idea lands, the move is obvious, and nothing in between is padding.<br>
   Substance, security and exact errors: byte-for-byte untouched.
 </p>
 
@@ -23,7 +22,7 @@
 <p align="center">
   <a href="#before--after">See it</a> ·
   <a href="#install">Install</a> ·
-  <a href="#the-three-axes">Axes</a> ·
+  <a href="#the-two-axes">Axes</a> ·
   <a href="#how-it-works">How</a> ·
   <a href="#benchmarks">Benchmarks</a> ·
   <a href="#why-29-and-not-65">Why not 65%</a>
@@ -34,8 +33,9 @@
 verboseless is a skill/plugin for [Claude Code](https://code.claude.com/docs), Codex,
 Gemini CLI, Cursor, Windsurf, Cline, Copilot, Kiro, Qoder, OpenCode, OpenClaw, Devin,
 and anything that reads `AGENTS.md`. Install once. The agent opens with the point
-instead of the mechanism, drops the filler, and stops building things you didn't ask
-for — while code, commands and error strings stay byte-for-byte exact.
+instead of the mechanism, puts the one thing you can do next directly under it, and
+drops every word in between — while code, commands and error strings stay
+byte-for-byte exact.
 
 > Everything can be abstract. Einstein could state relativity in one sentence; a
 > person who truly knows a thing explains it simply.
@@ -44,7 +44,7 @@ for — while code, commands and error strings stay byte-for-byte exact.
 
 Token counts are real, measured with `o200k_base`.
 
-**detail less** — the answer that was already correct, but made you assemble the point yourself.
+**essence first** — the answer that was already correct, but made you assemble the point yourself.
 
 <table>
 <tr><th width="50%">Normal agent — 92 tokens</th><th width="50%">verboseless — 21 tokens</th></tr>
@@ -79,23 +79,31 @@ New object ref each render. Inline object prop = new ref = re-render. Wrap in `u
 
 **−67%**. Nothing technical lost.
 
-**write less** — the axis that saves money, because it deletes work rather than words.
+**then the action** — the half that doesn't save words. It saves the round-trip.
 
 <table>
-<tr><th width="50%">Normal agent — 63 tokens</th><th width="50%">verboseless — 33 tokens</th></tr>
+<tr><th width="50%">Normal agent — 98 tokens</th><th width="50%">verboseless — 83 tokens</th></tr>
 <tr valign="top"><td>
 
-I've added a `CacheManager` class with a pluggable `EvictionPolicy` interface, an `LRUEvictionPolicy` implementation, a `CacheConfig` dataclass for the maxsize and ttl settings, and a `CacheFactory` so you can swap policies later without touching call sites. Wired it into the fetch path behind a feature flag.
+Now that we've walked through the auth flow, the next thing to consider is getting the token verification updated. The jsonwebtoken package you have is on an older major, so you'll want to bring that in first, and then the verifyToken function in your auth file will need reworking to match the new API surface. Once that's done it'd be worth running the auth test suite to confirm nothing regressed. By the way, a few of your other dependencies are stale too. Hope this helps!
 
 </td><td>
 
-`@lru_cache(maxsize=1000)` on the fetch function. Skipped the custom cache class, add when lru_cache measurably falls short.
+Your token check is calling an API that no longer exists in the installed major — a version mismatch, not a logic bug.
+
+1. `npm install jsonwebtoken@latest`
+2. Replace `verifyToken` in `src/auth.ts:42-58` with the snippet below
+3. `npm test -- auth.spec.ts`
+
+~10 minutes. Separately: other deps are stale. Want that next?
 
 </td></tr>
 </table>
 
-**−48%** on the reply — and five files that never got written, so no turns spent
-writing, reading back, or testing them. That second effect is where the real money is.
+Only **−15%**, and that is the honest number — this axis is not a compressor. The
+left column contains every fact the right one does; it just leaves the reader to
+extract the commands from prose, which is where "got it" fails to become "done
+it". Knowing the answer is not doing the answer.
 
 ## Install
 
@@ -146,17 +154,30 @@ personas, never the generated file; `./test.sh` fails if any copy is stale.
 
 </details>
 
-## The three axes
+## The two axes
 
 | governs | behave like | body |
 |---|---|---|
-| the **first line** of any answer | abstract first | `personas/01-detail-less.md` |
+| the **shape** of any answer — its first line, then its next line | abstract first, then i-have-adhd | `personas/01-essence-first.md` |
 | everything you **say** | caveman | `personas/02-say-less.md` |
-| everything you **write** | ponytail | `personas/03-write-less.md` |
 
 Order is load-bearing: you cannot compress an idea you have not named, and you cannot
-write the smallest code for a problem you have not stated simply. Altitude, then
-words, then code.
+name the right next action for a problem you have not stated simply. Altitude, then
+the move, then the words.
+
+Three source personas, two bodies. The first body merges two of them because they
+answer the same question from opposite ends — **abstract first** names the idea,
+**i-have-adhd** names the move the idea implies — and each is weak exactly where the
+other is strong. Abstract first updates your mental model and then leaves you at the
+top of a hill with no path down; adhd hands you step 1 of 5 without ever telling you
+what you are climbing. Merged, the altitude line owns the opening and the action owns
+the line directly beneath it. **Caveman** then runs over both: it works word by
+word and never restructures an answer, which is why it composes rather than
+competes — it may shorten a numbered step, never delete it.
+
+The upstream inversion is deliberate and worth naming: i-have-adhd puts the action on
+the *first* line. Here it moves to the second, because an action whose purpose you
+cannot state is how you end up efficiently doing the wrong thing.
 
 `personas/00-doctrine.md` holds the never-compress list — substance, exact errors,
 code, trust-boundary validation, data-loss handling, security, accessibility, anything
@@ -165,7 +186,7 @@ asked for in full. Compression that drops information isn't verboseless, it's wr
 ## How it works
 
 <p align="center">
-  <img src="assets/verboseless.svg" alt="Four persona bodies on disk, cat'd by one hook into the tail of the context on every prompt, where three axes govern the first line, the prose and the code" width="100%">
+  <img src="assets/verboseless.svg" alt="Three persona bodies on disk, cat'd by one hook into the tail of the context on every prompt, where two axes govern the shape of the answer and the words inside it" width="100%">
 </p>
 
 Hook events `SessionStart`, `UserPromptSubmit` and `SubagentStart` accept **plain
@@ -186,14 +207,14 @@ every compaction. The repetition is the forcing function.
 `UserPromptSubmit` gets one line, not the bodies — a full copy per prompt would stack
 into the re-sent context, which is the pool this exists to shrink. `SubagentStart`
 gets the full bodies: a subagent's report *is* the parent's context, so compressing it
-pays twice. Ponytail injects into subagents upstream, caveman doesn't; that reads as an
-omission, not a decision.
+pays twice. Neither upstream injects into subagents at all; that reads as an omission,
+not a decision.
 
 ### Two surfaces, two altitudes
 
 ```
-OUTPUT STYLE  3.7 KB  end of system prompt    the ROLE  — which behavior, what surface
-HOOK BODIES  12.1 KB  tail of the transcript  the RULES — and here is every one
+OUTPUT STYLE  4.5 KB  end of system prompt    the ROLE  — which behavior, what surface
+HOOK BODIES  11.7 KB  tail of the transcript  the RULES — and here is every one
 ```
 
 Different content, so they never duplicate. Enable the style with `/config` →
@@ -205,22 +226,32 @@ the style grows past half the bodies.
 
 ## Benchmarks
 
+**Read this first: the arm that was measured is not the arm that ships.** The
+numbers below are for `ponytail + caveman`, an earlier cut of this repo whose
+second axis was an anti-over-engineering persona. That axis has been replaced by
+`i-have-adhd`, which shapes an answer rather than shrinking a diff, so the −29%
+does **not** transfer. It is kept here because deleting an inconvenient
+measurement is worse than scoping it.
+
 Autonomous coding swarm (Claude Agent SDK, GLM-5.2), identical task every arm,
 **n=3 per arm**, cost metered off the wire rather than estimated:
 
-| | baseline | verboseless | Δ |
+| | baseline | ponytail + caveman | Δ |
 |---|---|---|---|
 | cost per delivery | $4.74 ± 0.89 | **$3.37 ± 0.08** | **−29%** |
 | output tokens | 132.5k | 89.5k | −32% |
 | run-to-run variance | ±$0.89 | **±$0.08** | tightest of 9 arms |
 | correct deliveries | 3/3 | 3/3 | — |
 
-The variance column matters as much as the cost one: the combo was the most
+The variance column matters as much as the cost one: that combo was the most
 *predictable* arm in the field, which is what you want from a default.
 
-**What this does not show.** Two tasks, one model (GLM-5.2), and these persona
-prompts are Claude-tuned — one upstream benchmark saw a terseness persona go
-net-negative on a small model. Read it as "on this swarm and this model."
+**What this does not show.** Two tasks, one model (GLM-5.2), Claude-tuned persona
+prompts — one upstream benchmark saw a terseness persona go net-negative on a
+small model. And nothing here measures the current axes at all: caveman's own
+**8.5%** on long-horizon runs is the closest honest floor, and the action half is
+not a compressor, so expect it to move correctness and round-trips rather than
+cost. Re-running the harness against the shipped pair is open work.
 
 **[Read the full report →](docs/BENCHMARK.md)** — two studies, nine
 configurations, 44 runs, ~$205 of model spend. Harness design, full
@@ -244,7 +275,7 @@ Output is the **ceiling**, and it's 11.8%. Cut 65% of it → save 7.7%. Cut *all
 — every token the model emits, leaving an agent that does the work in total silence —
 → save 11.8%.
 
-The measured saving is **29%**. That is **2.4× the entire output pool**, so at minimum
+The measured saving on that arm is **29%**. That is **2.4× the entire output pool**, so at minimum
 17 percentage points of it cannot have come from terser messages at all. Terseness is
 not the mechanism; it is a side effect. The mechanism is fewer turns, and each avoided
 turn deletes a full re-send of the cached context at roughly $0.03–0.04 a go.
@@ -256,19 +287,22 @@ Sixty-five percent off a slice of a slice lands in single digits — which is wh
 caveman's own README now reports **8.5%** on long-horizon agentic runs, and that number
 is the honest one for a single terseness axis.
 
-The uncomfortable corollary: **write-less carries most of this, not say-less.** Not
-building the speculative thing and not re-reading what you already read removes whole
-turns, and turns are what the bill is made of.
+The uncomfortable corollary: **the axis that deleted work carried most of that 29%,
+not the axis that deleted words.** Not building the speculative thing removes whole
+turns, and turns are what the bill is made of. Dropping it is a deliberate trade — this
+repo is now cut around how an answer is *shaped*, not how a diff is *sized* — and the
+cost claim goes with it.
 
 Judge any future optimization by whether it **shortens the run**. An input-command
 compressor tested alongside these landed dead-even with baseline for exactly that
-reason.
+reason. By that test, `i-have-adhd` earns its place only if a correct first action
+avoids a corrective round-trip; that is the hypothesis, and it is not yet measured.
 
 ## Test
 
 ```
 ./build.sh    # regenerate every agent surface from personas/
-./test.sh     # 12 invariants, all RED-verified
+./test.sh     # 40 invariants, all RED-verified
 ```
 
 Axes emit, the per-prompt line stays one line, an absent `personas/` degrades instead
@@ -286,8 +320,11 @@ nobody turns twice. Deleting a `personas/*.md` file is already the off switch.
 ## Credit
 
 `say less` from [caveman](https://github.com/JuliusBrussee/caveman) by Julius Brussee
-(MIT). `write less` from [ponytail](https://github.com/DietrichGebert/ponytail) by
-Dietrich Gebert (MIT). `detail less` is original. Reducing each plugin to its single
+(MIT). The action half of `essence first` from
+[i-have-adhd](https://github.com/ayghri/i-have-adhd) by Ayoub Ghriss (MIT). The
+abstract-first half is original. An earlier `write less` axis came from
+[ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert (MIT) and no
+longer ships. Reducing each plugin to its single
 injectable body is a pattern borrowed from a private agent-runtime codebase, which did
 the same reduction to inject both into a Claude Agent SDK worker. See
 [`NOTICE`](NOTICE) for what changed and

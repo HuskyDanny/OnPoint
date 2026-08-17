@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "verboseless",
-  "description": "Detail less, say less, write less. One plugin, three composable persona bodies, one cat.",
+  "description": "Essence first, say less. One plugin, three composable persona bodies, one cat.",
   "owner": {
     "name": "Allen Pan",
     "url": "https://github.com/HuskyDanny"
@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "verboseless",
-      "description": "Lead with the big idea, then say it terse, then build the smallest thing that works. Substance never compressed.",
+      "description": "Lead with the big idea, put the one next action right under it, and say it terse. Substance never compressed.",
       "source": "./",
       "category": "productivity"
     }
