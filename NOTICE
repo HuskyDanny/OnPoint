@@ -11,7 +11,7 @@ personas/02-say-less.md derives from caveman
   That repository is split-licensed: its skills/ prose, which is what was taken,
   is MIT; its engine-linked directories are BSL-1.1.
 
-personas/01-detail-less.md, section "Then the action", derives from i-have-adhd
+personas/01-essence-first.md, section "Then the action", derives from i-have-adhd
   https://github.com/ayghri/i-have-adhd
   Copyright (c) 2026 Ayoub Ghriss — MIT License
 
@@ -25,7 +25,7 @@ and a benchmark suite. The persona prose is the only part that changes model
 behavior, so only that was kept — one baked-in intensity, with the
 self-referential mode-switching prose ("stop adhd mode", intensity levels,
 statusline tags) dropped. Each upstream is still named where its rules begin, so
-a reader of the injected text can tell which behaviour came from where. i-have-adhd is folded into the second half of the detail-less axis
+a reader of the injected text can tell which behaviour came from where. i-have-adhd is folded into the second half of the essence-first axis
 rather than shipping as its own body, because the two answer the same question
 from opposite ends: one names the idea, the other names the move it implies.
 One deliberate inversion: upstream i-have-adhd puts the next action on the first
@@ -45,6 +45,6 @@ as a benchmarked arm, which is a record of what was measured, not shipped code.
 
 ────────────────────────────────────────────────────────────────────────────
 
-The first half of personas/01-detail-less.md — "the big idea first" — is
+The first half of personas/01-essence-first.md — "the big idea first" — is
 original to this work. It has no upstream: it began as a local Claude Code
 SessionStart hook and its few-shot examples were genericized for publication.

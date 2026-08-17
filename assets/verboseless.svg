@@ -146,13 +146,13 @@
 <g>
   <text class="h1" x="40" y="52">verboseless</text>
   <text class="sub" x="238" y="52">two axes, one cat</text>
-  <text class="sm" x="1240" y="38" text-anchor="end">detail less · say less</text>
+  <text class="sm" x="1240" y="38" text-anchor="end">essence first · say less</text>
   <text class="sm" x="1240" y="56" text-anchor="end">claude code plugin · MIT</text>
 
   <text class="num" x="66" y="135" text-anchor="middle">1</text>
   <text class="pt" x="90" y="136">on disk</text>
   <text class="lb" x="70" y="182">00-doctrine.md</text>          <text class="sm" x="270" y="182" text-anchor="end">1.9 KB</text>
-  <text class="lb" x="70" y="228">01-detail-less.md</text>       <text class="sm" x="270" y="228" text-anchor="end">6.5 KB</text>
+  <text class="lb" x="70" y="228">01-essence-first.md</text>       <text class="sm" x="270" y="228" text-anchor="end">6.5 KB</text>
   <text class="lb" x="70" y="274">02-say-less.md</text>          <text class="sm" x="270" y="274" text-anchor="end">3.3 KB</text>
   <text class="sm" x="70" y="320">3 personas · 2 axes · 11.7 KB</text>
   <text class="sm" x="58" y="356">glob order IS the axis order</text>

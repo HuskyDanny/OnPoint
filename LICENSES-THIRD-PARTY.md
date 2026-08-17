@@ -37,7 +37,7 @@ SOFTWARE.
 
 ---
 
-Portions of personas/01-detail-less.md, the section "Then the action", derive
+Portions of personas/01-essence-first.md, the section "Then the action", derive
 from i-have-adhd (https://github.com/ayghri/i-have-adhd):
 
 MIT License

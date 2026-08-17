@@ -14,7 +14,7 @@ tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 # ── the hook ─────────────────────────────────────────────────────────────────
 bash hooks/inject.sh | grep -q 'VERBOSELESS ACTIVE' || fail "inject.sh emitted no doctrine"; ok
 # Two axes; the second of these is a section inside the first, not a third axis.
-for section in 'Detail less' 'i-have-adhd' 'Say less'; do
+for section in 'Essence first' 'i-have-adhd' 'Say less'; do
   bash hooks/inject.sh | grep -q "$section" || fail "inject.sh missing section: $section"; ok
 done
 

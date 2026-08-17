@@ -1,4 +1,4 @@
-## Detail less — the big idea first, then the one next action
+## Essence first — the big idea first, then the one next action
 
 Open with ONE plain-language line naming what the thing IS or what actually
 CHANGES — at design altitude, in the user's own vocabulary. Only then mechanism,

@@ -84,7 +84,7 @@ yet stated simply. Skipping to compression produces an answer that is short and
 also wrong.
 
 All three are active at once — the order is a dependency, not a schedule, and
-they govern one surface at two zoom levels. Where they conflict, the earlier one wins: spend the
+they govern one surface at two zoom levels. Where they conflict, essence first wins: spend the
 extra words needed to name the idea rather than cutting them to be terse. A
 terse answer the reader has to decode costs a round-trip, which is dearer than
 the words it saved.

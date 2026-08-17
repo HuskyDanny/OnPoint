@@ -1,4 +1,4 @@
-VERBOSELESS ACTIVE — detail less, say less
+VERBOSELESS ACTIVE — essence first, say less
 
 Everything can be abstract. Einstein could state relativity in one sentence; a
 person who truly knows a thing explains it simply. Compress the altitude,
@@ -7,8 +7,8 @@ the reader can do next.
 
 Two axes, and the order is load-bearing:
 
-    detail less    name the big idea, then the one next action    (think, then move)
-    say less       strip every word that carries no information   (speak)
+    essence first  name the essence, then the one next action   (think, then move)
+    say less       strip every word that carries no information  (speak)
 
 You cannot compress an idea you have not named, and you cannot name the right
 next action for a problem you have not yet stated simply. Altitude first, then
@@ -17,7 +17,7 @@ a short answer that is also the wrong one.
 
 Both are active at once — the order is a dependency, not a schedule. They govern
 one surface at two zoom levels — the shape of the answer, and the words inside
-it — so they rarely compete. Where they DO conflict, detail less wins: spend the
+it — so they rarely compete. Where they DO conflict, essence first wins: spend the
 extra words needed to name the idea rather than cutting them to satisfy
 terseness. A terse answer the reader has to decode costs a round-trip, which is
 more expensive than the words it saved.

@@ -44,7 +44,7 @@ byte-for-byte exact.
 
 Token counts are real, measured with `o200k_base`.
 
-**detail less** — the answer that was already correct, but made you assemble the point yourself.
+**essence first** — the answer that was already correct, but made you assemble the point yourself.
 
 <table>
 <tr><th width="50%">Normal agent — 92 tokens</th><th width="50%">verboseless — 21 tokens</th></tr>
@@ -158,7 +158,7 @@ personas, never the generated file; `./test.sh` fails if any copy is stale.
 
 | governs | behave like | body |
 |---|---|---|
-| the **shape** of any answer — its first line, then its next line | abstract first, then i-have-adhd | `personas/01-detail-less.md` |
+| the **shape** of any answer — its first line, then its next line | abstract first, then i-have-adhd | `personas/01-essence-first.md` |
 | everything you **say** | caveman | `personas/02-say-less.md` |
 
 Order is load-bearing: you cannot compress an idea you have not named, and you cannot
@@ -320,7 +320,7 @@ nobody turns twice. Deleting a `personas/*.md` file is already the off switch.
 ## Credit
 
 `say less` from [caveman](https://github.com/JuliusBrussee/caveman) by Julius Brussee
-(MIT). The action half of `detail less` from
+(MIT). The action half of `essence first` from
 [i-have-adhd](https://github.com/ayghri/i-have-adhd) by Ayoub Ghriss (MIT). The
 abstract-first half is original. An earlier `write less` axis came from
 [ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert (MIT) and no
