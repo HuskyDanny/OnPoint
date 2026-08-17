@@ -78,14 +78,24 @@ python3 -c 'import json; [json.load(open(f)) for f in [
   ".codex-plugin/plugin.json",".devin-plugin/plugin.json",".qoder-plugin/plugin.json"]]' \
   || fail "invalid JSON in a manifest"; ok
 
-# Every plugin manifest must POINT at a hook file that exists. Dropping the key is
-# how a marketplace install silently stops injecting — valid JSON, zero behavior.
-python3 - <<'PY' || fail "a plugin manifest does not point at an existing hook file"
+# Claude Code auto-loads the standard hooks/hooks.json, so naming it in the manifest
+# too is a DUPLICATE and the whole hook load fails:
+#   "Duplicate hooks file detected: ./hooks/hooks.json resolves to already-loaded
+#    file … manifest.hooks should only reference additional hook files."
+# Silent: /plugin shows the plugin enabled, only `claude plugin list --json` errors.
+python3 - <<'PY' || fail "a plugin manifest declares hooks wrongly"
 import json, os
-for m in [".claude-plugin/plugin.json", ".codex-plugin/plugin.json",
-          ".devin-plugin/plugin.json", ".qoder-plugin/plugin.json"]:
+cc = json.load(open(".claude-plugin/plugin.json"))
+assert "hooks" not in cc, (
+    "'.claude-plugin/plugin.json' must NOT declare hooks — hooks/hooks.json is "
+    "auto-loaded, and naming it again makes Claude Code drop every hook")
+assert os.path.isfile("hooks/hooks.json"), "the auto-loaded hooks file is missing"
+
+# Other hosts have no such auto-load convention, so they still need the pointer.
+for m in [".codex-plugin/plugin.json", ".devin-plugin/plugin.json",
+          ".qoder-plugin/plugin.json"]:
     h = json.load(open(m)).get("hooks")
-    assert h, f"{m} has no hooks key — the plugin install would inject nothing"
+    assert h, f"{m} has no hooks key — that host would inject nothing"
     assert os.path.isfile(h.removeprefix("./")), f"{m} points at a missing {h}"
 
 # Same silent-no-injection class, one layer down: the hook file's own command, and
