@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'VERBOSELESS ACTIVE \u2014 detail less (big idea first, verdict first), say less (terse, no filler), write less (YAGNI, stdlib first). Substance, security and exact errors never compressed.'",
+            "command": "echo 'VERBOSELESS ACTIVE \u2014 detail less (big idea first, verdict first, then the one next action), say less (terse, no filler). Substance, security and exact errors never compressed.'",
             "timeout": 5,
             "statusMessage": "Loading verboseless"
           }
