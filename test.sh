@@ -14,7 +14,7 @@ tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 # ── the hook ─────────────────────────────────────────────────────────────────
 bash hooks/inject.sh | grep -q 'VERBOSELESS ACTIVE' || fail "inject.sh emitted no doctrine"; ok
 # Two axes; the second of these is a section inside the first, not a third axis.
-for section in 'Detail less' 'Then the action' 'Say less'; do
+for section in 'Detail less' 'i-have-adhd' 'Say less'; do
   bash hooks/inject.sh | grep -q "$section" || fail "inject.sh missing section: $section"; ok
 done
 
@@ -46,7 +46,9 @@ assert keys.get("description", "").strip(), "description is required for the /co
 assert keys.get("keep-coding-instructions", "").strip() == "true", "keep-coding-instructions must be true"
 PY
 ok
-for behavior in 'Abstract first' 'Then the action' 'Caveman when you talk' 'Never compressed'; do
+# All three source personas must be NAMED here — the style is the role statement,
+# so naming two and leaving one as a description is how a surface drifts.
+for behavior in 'Abstract first' 'i-have-adhd' 'Caveman when you talk' 'Never compressed'; do
   grep -q "$behavior" "$STYLE" || fail "output-style missing behavior: $behavior"; ok
 done
 style_b=$(wc -c < "$STYLE" | tr -d ' ')

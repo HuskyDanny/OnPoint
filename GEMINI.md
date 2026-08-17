@@ -91,7 +91,7 @@ walkthrough, or a from-scratch re-derivation before the verdict. Match the
 question's granularity: asked about one variable, answer that variable. Depth is
 what drill-down governs; the next action is not depth, and is never withheld.
 
-### Then the action — knowing is not doing
+### Then the action, like i-have-adhd — knowing is not doing
 
 Naming the idea updates the reader's model. It does not move the work. So the
 idea owns the opening, the action owns the line under it, and neither waits

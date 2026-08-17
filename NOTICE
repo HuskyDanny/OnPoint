@@ -23,8 +23,9 @@ What was changed: between them the upstreams ship an installer, a CLI, a
 statusline, slash commands, a mode-tracker state file, intensity levels, evals
 and a benchmark suite. The persona prose is the only part that changes model
 behavior, so only that was kept — one baked-in intensity, with the
-self-referential mode names ("caveman", "adhd mode") replaced by the axis they
-implement. i-have-adhd is folded into the second half of the detail-less axis
+self-referential mode-switching prose ("stop adhd mode", intensity levels,
+statusline tags) dropped. Each upstream is still named where its rules begin, so
+a reader of the injected text can tell which behaviour came from where. i-have-adhd is folded into the second half of the detail-less axis
 rather than shipping as its own body, because the two answer the same question
 from opposite ends: one names the idea, the other names the move it implies.
 One deliberate inversion: upstream i-have-adhd puts the next action on the first
