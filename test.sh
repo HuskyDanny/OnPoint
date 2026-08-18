@@ -12,11 +12,20 @@ STYLE=output-styles/verboseless.md
 tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 
 # ── the hook ─────────────────────────────────────────────────────────────────
-bash hooks/inject.sh | grep -q 'VERBOSELESS ACTIVE' || fail "inject.sh emitted no doctrine"; ok
-# Two axes; the second of these is a section inside the first, not a third axis.
-for section in 'Essence first' 'i-have-adhd' 'Say less'; do
-  bash hooks/inject.sh | grep -q "$section" || fail "inject.sh missing section: $section"; ok
-done
+# Plain stdout is CAPPED: past ~10 KB Claude Code spills the payload to a file and
+# injects a 2 KB preview instead — silently, with the hook still reported as
+# succeeding. Measured on 2.1.234: 10001 B inlines, 10050 B spills. The bodies are
+# ~12 KB, so they MUST go out as JSON additionalContext, which has no cap.
+bash hooks/inject.sh </dev/null > "$tmp/hook.json" || fail "inject.sh exited non-zero"
+python3 - "$tmp/hook.json" <<'HOOKJSON' || fail "inject.sh must emit JSON additionalContext, not raw stdout"
+import json, sys
+d = json.load(open(sys.argv[1]))["hookSpecificOutput"]
+assert d["hookEventName"], "hookEventName is required"
+ctx = d["additionalContext"]
+for section in ("VERBOSELESS ACTIVE", "Essence first", "i-have-adhd", "Say less"):
+    assert section in ctx, f"missing section: {section}"
+HOOKJSON
+ok
 
 # The per-prompt reinforcement must stay one line — the whole reason
 # UserPromptSubmit gets --line instead of the full bodies.
@@ -25,12 +34,12 @@ bash hooks/inject.sh --line | grep -q 'VERBOSELESS ACTIVE' || fail "--line emitt
 
 # A missing body degrades that axis, never the run.
 mkdir -p "$tmp/personas"; cp personas/00-doctrine.md "$tmp/personas/"
-CLAUDE_PLUGIN_ROOT="$tmp" bash hooks/inject.sh | grep -q 'VERBOSELESS ACTIVE' \
+CLAUDE_PLUGIN_ROOT="$tmp" bash hooks/inject.sh </dev/null | grep -q 'VERBOSELESS ACTIVE' \
   || fail "a partial personas/ should still emit what it has"; ok
-if CLAUDE_PLUGIN_ROOT="$tmp" bash hooks/inject.sh | grep -q 'Say less'; then
+if CLAUDE_PLUGIN_ROOT="$tmp" bash hooks/inject.sh </dev/null | grep -q 'Say less'; then
   fail "an absent body must not appear"
 fi; ok
-CLAUDE_PLUGIN_ROOT="$tmp/nope" bash hooks/inject.sh >/dev/null \
+CLAUDE_PLUGIN_ROOT="$tmp/nope" bash hooks/inject.sh </dev/null >/dev/null \
   || fail "a missing personas dir must still exit 0 — a broken install never breaks a session"; ok
 
 # ── the output style: a role statement, never a second copy ───────────────────
@@ -52,7 +61,7 @@ for behavior in 'Abstract first' 'i-have-adhd' 'Caveman when you talk' 'Never co
   grep -q "$behavior" "$STYLE" || fail "output-style missing behavior: $behavior"; ok
 done
 style_b=$(wc -c < "$STYLE" | tr -d ' ')
-bodies_b=$(bash hooks/inject.sh | wc -c | tr -d ' ')
+bodies_b=$(python3 -c 'import json,sys;print(len(json.load(open(sys.argv[1]))["hookSpecificOutput"]["additionalContext"].encode()))' "$tmp/hook.json")
 [ "$style_b" -lt $((bodies_b / 2)) ] \
   || fail "output-style is ${style_b}B vs bodies ${bodies_b}B — it became a copy, so the system prompt and the tail now both carry it"; ok
 
