@@ -44,9 +44,9 @@ byte-for-byte exact.
 
 Token counts are real, measured with `o200k_base`.
 
-**All three at once** — a real exchange, translated from the Chinese. *"I think I have
-heatstroke, what do I do?"* Name the thing in one line, lead with the action, cut
-everything else.
+A real exchange, translated from the Chinese — *"I think I have heatstroke, what do I
+do?"* All three personas at work in one answer: name the thing in one line, lead with
+the action, cut everything else.
 
 <table>
 <tr><th width="50%">Normal agent — 408 tokens</th><th width="50%">verboseless — 155 tokens</th></tr>
@@ -115,69 +115,6 @@ dark-urine/rhabdomyolysis warning. That is drill-down the reader pulls when the
 emergency is over, and calling it free would be dishonest: it is a deliberate deferral,
 chosen because a reader in the first minute of this needs four steps they will actually
 finish over ten they will abandon.
-
-Each axis on its own, for isolation.
-
-**essence first** — the answer that was already correct, but made you assemble the point yourself.
-
-<table>
-<tr><th width="50%">Normal agent — 92 tokens</th><th width="50%">verboseless — 21 tokens</th></tr>
-<tr valign="top"><td>
-
-The reason your job is stuck is that the predicate `last_event_at > COALESCE(last_retried_at, deadline_at)` evaluates false, so the sweep never claims it. Concretely, per stalled candidate we CAS-claim it time-gated, stamp `last_retried_at = now()`, increment attempts, publish the token to the queue write-ahead-then-publish, and the scaler spawns a worker which resumes and takes another look.
-
-</td><td>
-
-The job is waiting for an event that can no longer exist — a deadlock, not a delay.
-
-</td></tr>
-</table>
-
-Every fact on the left is true. The reader still had to reconstruct "deadlock vs delay"
-out of three steps of mechanism. **−77%**, and the point arrives first.
-
-**say less** — same fix, a third of the words.
-
-<table>
-<tr><th width="50%">Normal agent — 63 tokens</th><th width="50%">verboseless — 21 tokens</th></tr>
-<tr valign="top"><td>
-
-The reason your React component is re-rendering is likely because you're creating a new object reference on each render cycle. When you pass an inline object as a prop, React's shallow comparison sees it as a different object every time, which triggers a re-render. I'd recommend using useMemo to memoize the object.
-
-</td><td>
-
-New object ref each render. Inline object prop = new ref = re-render. Wrap in `useMemo`.
-
-</td></tr>
-</table>
-
-**−67%**. Nothing technical lost.
-
-**then the action** — the half that doesn't save words. It saves the round-trip.
-
-<table>
-<tr><th width="50%">Normal agent — 98 tokens</th><th width="50%">verboseless — 83 tokens</th></tr>
-<tr valign="top"><td>
-
-Now that we've walked through the auth flow, the next thing to consider is getting the token verification updated. The jsonwebtoken package you have is on an older major, so you'll want to bring that in first, and then the verifyToken function in your auth file will need reworking to match the new API surface. Once that's done it'd be worth running the auth test suite to confirm nothing regressed. By the way, a few of your other dependencies are stale too. Hope this helps!
-
-</td><td>
-
-Your token check is calling an API that no longer exists in the installed major — a version mismatch, not a logic bug.
-
-1. `npm install jsonwebtoken@latest`
-2. Replace `verifyToken` in `src/auth.ts:42-58` with the snippet below
-3. `npm test -- auth.spec.ts`
-
-~10 minutes. Separately: other deps are stale. Want that next?
-
-</td></tr>
-</table>
-
-Only **−15%**, and that is the honest number — this axis is not a compressor. The
-left column contains every fact the right one does; it just leaves the reader to
-extract the commands from prose, which is where "got it" fails to become "done
-it". Knowing the answer is not doing the answer.
 
 ## Install
 
