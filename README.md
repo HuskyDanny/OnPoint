@@ -189,24 +189,23 @@ asked for in full. Compression that drops information isn't verboseless, it's wr
   <img src="assets/verboseless.svg" alt="Three persona bodies on disk, cat'd by one hook into the tail of the context on every prompt, where two axes govern the shape of the answer and the words inside it" width="100%">
 </p>
 
-Hook events `SessionStart`, `UserPromptSubmit` and `SubagentStart` all take context
-from the hook's output. The bodies are one `cat`, handed over as JSON:
+Hook events `SessionStart`, `UserPromptSubmit` and `SubagentStart` accept **plain
+stdout** as context. So the mechanism is a `cat`:
 
 ```bash
-cat "$root"/personas/*.md   # → {"hookSpecificOutput": {"additionalContext": …}}
+cat "$root"/personas/*.md
 ```
 
 Glob order is the axis order. Rename to reorder, delete to disable. No config, no env
 var, no state file.
 
-**Why not plain stdout.** It works, and it is capped. Past ~10 KB Claude Code writes
-the payload to a file and injects a 2 KB preview in its place — silently, with the
-hook still reported as succeeding and `/plugin` still showing it enabled. Measured on
-2.1.234: **10,001 B inlines, 10,050 B spills.** The bodies are ~12 KB, so the plain
-`cat` never delivered them; the doctrine arrived and the axes did not. The JSON form
-has no such cap (verified to 40 KB) and both `SessionStart` and `SubagentStart` honour
-it. `python3` does the escaping, and its absence falls back to raw stdout — truncated
-beats a broken session.
+**The 10 KB ceiling.** Injected context is capped. Past ~10 KB Claude Code writes the
+payload to a file and injects a 2 KB preview in its place — silently, with the hook
+still reported as succeeding and `/plugin` still showing it enabled. Measured on
+2.1.234: **10,000 B inlines, 10,050 B spills.** JSON `hookSpecificOutput.additional
+Context` hits the *same* cap — its spill file is just named `…-additionalContext.txt`
+instead of `…-stdout.txt` — so there is no clever encoding around it. The only fix is
+to stay small. The bodies are **9,655 B** and `./test.sh` fails past 9,800.
 
 **Hook, not `CLAUDE.md`** — same words, different position. `CLAUDE.md` sits in the
 cached system prefix: said once at the head, decaying as the transcript grows past it.
@@ -223,7 +222,7 @@ not a decision.
 
 ```
 OUTPUT STYLE  4.5 KB  end of system prompt    the ROLE  — which behavior, what surface
-HOOK BODIES  11.7 KB  tail of the transcript  the RULES — and here is every one
+HOOK BODIES   9.4 KB  tail of the transcript  the RULES — and here is every one
 ```
 
 Different content, so those two never duplicate — but the **rule files do**.
@@ -320,7 +319,7 @@ avoids a corrective round-trip; that is the hypothesis, and it is not yet measur
 
 ```
 ./build.sh    # regenerate every agent surface from personas/
-./test.sh     # 41 invariants, all RED-verified
+./test.sh     # 44 invariants, all RED-verified
 ```
 
 Axes emit, the per-prompt line stays one line, an absent `personas/` degrades instead
