@@ -45,8 +45,8 @@ byte-for-byte exact.
 Token counts are real, measured with `o200k_base`.
 
 **All three at once** — a real exchange, translated from the Chinese. *"I think I have
-heatstroke, what do I do?"* One line naming the thing, then the action, then no filler:
-一句话概括 + leading action + 少废话.
+heatstroke, what do I do?"* Name the thing in one line, lead with the action, cut
+everything else.
 
 <table>
 <tr><th width="50%">Normal agent — 408 tokens</th><th width="50%">verboseless — 155 tokens</th></tr>
