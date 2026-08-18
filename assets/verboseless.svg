@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" width="1280" height="780"
      role="img" aria-label="How verboseless works: three persona bodies on disk are cat'd by one hook into the tail of the context on every prompt, where two axes govern the shape of the answer and the words inside it.">
 <title>verboseless — two axes, one cat</title>
-<desc>Five panels. One: three markdown bodies on disk totalling 11.7 KB. Two: one hook script cats them; all three hook events accept plain stdout as context. Three: the injection lands at the tail of the context next to the live turn and is re-fired, whereas CLAUDE.md sits once at the head and decays. Four: three personas govern the first line, the next line, and everything you say, in that order — abstract first names the idea, i-have-adhd names the next action, caveman deletes the filler. Five: a measurement of the arm this repo shipped previously, ponytail plus caveman, across three runs per arm: cost $4.74 to $3.37 per delivery, output 132.5k tokens to 89.5k, and run-to-run variance collapsing from plus or minus 89 cents to plus or minus 8 cents. That arm is no longer what ships.</desc>
+<desc>Five panels. One: three markdown bodies on disk totalling 9.4 KB. Two: one hook script cats them; all three hook events accept plain stdout as context. Three: the injection lands at the tail of the context next to the live turn and is re-fired, whereas CLAUDE.md sits once at the head and decays. Four: three personas govern the first line, the next line, and everything you say, in that order — abstract first names the idea, i-have-adhd names the next action, caveman deletes the filler. Five: a measurement of the arm this repo shipped previously, ponytail plus caveman, across three runs per arm: cost $4.74 to $3.37 per delivery, output 132.5k tokens to 89.5k, and run-to-run variance collapsing from plus or minus 89 cents to plus or minus 8 cents. That arm is no longer what ships.</desc>
 
 <defs>
   <filter id="rough" x="-4%" y="-4%" width="108%" height="108%">
@@ -151,10 +151,10 @@
 
   <text class="num" x="66" y="135" text-anchor="middle">1</text>
   <text class="pt" x="90" y="136">on disk</text>
-  <text class="lb" x="70" y="182">00-doctrine.md</text>          <text class="sm" x="270" y="182" text-anchor="end">1.9 KB</text>
-  <text class="lb" x="70" y="228">01-essence-first.md</text>       <text class="sm" x="270" y="228" text-anchor="end">6.5 KB</text>
-  <text class="lb" x="70" y="274">02-say-less.md</text>          <text class="sm" x="270" y="274" text-anchor="end">3.3 KB</text>
-  <text class="sm" x="70" y="320">3 personas · 2 axes · 11.7 KB</text>
+  <text class="lb" x="70" y="182">00-doctrine.md</text>          <text class="sm" x="270" y="182" text-anchor="end">1.5 KB</text>
+  <text class="lb" x="70" y="228">01-essence-first.md</text>       <text class="sm" x="270" y="228" text-anchor="end">5.0 KB</text>
+  <text class="lb" x="70" y="274">02-say-less.md</text>          <text class="sm" x="270" y="274" text-anchor="end">2.9 KB</text>
+  <text class="sm" x="70" y="320">3 personas · 2 axes · 9.4 KB</text>
   <text class="sm" x="58" y="356">glob order IS the axis order</text>
   <text class="sm" x="58" y="374">delete a file = that axis off</text>
   <text class="sm" x="58" y="392">no config · no env var · no state</text>
@@ -163,7 +163,7 @@
   <text class="pt" x="366" y="136">one hook</text>
   <text class="mono" x="348" y="183">cat personas/*.md</text>
   <text class="sm" x="334" y="222">all three events accept plain stdout</text>
-  <text class="sm" x="334" y="238">as context — JSON, because stdout caps</text>
+  <text class="sm" x="334" y="238">as context — but capped at 10 KB</text>
   <text class="lb" x="378" y="266">SessionStart</text>
   <text class="sm" x="620" y="266" text-anchor="end">full · + compaction</text>
   <text class="lb" x="378" y="308">UserPromptSubmit</text>
@@ -179,7 +179,7 @@
   <text class="sm" x="730" y="240">turn 1</text>
   <text class="sm" x="730" y="318">turn N</text>
   <text class="lb accy refire" x="752" y="352">verboseless, re-injected</text>
-  <text class="sm accy refire" x="752" y="370">11.7 KB, beside the live turn</text>
+  <text class="sm accy refire" x="752" y="370">9.4 KB, beside the live turn</text>
 
   <text class="lb" x="952" y="174">stated ONCE, at the head</text>
   <text class="sm" x="952" y="192">cached — salience decays as</text>
