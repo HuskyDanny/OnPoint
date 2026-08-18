@@ -163,14 +163,14 @@
   <text class="pt" x="366" y="136">one hook</text>
   <text class="mono" x="348" y="183">cat personas/*.md</text>
   <text class="sm" x="334" y="222">all three events accept plain stdout</text>
-  <text class="sm" x="334" y="238">as context — so no JSON, no escaping</text>
+  <text class="sm" x="334" y="238">as context — JSON, because stdout caps</text>
   <text class="lb" x="378" y="266">SessionStart</text>
   <text class="sm" x="620" y="266" text-anchor="end">full · + compaction</text>
   <text class="lb" x="378" y="308">UserPromptSubmit</text>
   <text class="sm" x="620" y="308" text-anchor="end">1 line · per prompt</text>
   <text class="lb" x="378" y="350">SubagentStart</text>
   <text class="sm" x="620" y="350" text-anchor="end">full · per subagent</text>
-  <text class="sm" x="334" y="392">22 lines, of which one is the mechanism</text>
+  <text class="sm" x="334" y="392">53 lines, of which one is the mechanism</text>
 
   <text class="num" x="682" y="135" text-anchor="middle">3</text>
   <text class="pt" x="706" y="136">where it lands — the tail, not the head</text>
