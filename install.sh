@@ -60,6 +60,19 @@ gemini|GEMINI.md|GEMINI.md|GEMINI.md
 copilot|.github|.github/copilot-instructions.md|.github/copilot-instructions.md
 "
 
+# The Claude Code plugin's hook already injects the whole body at the tail of every
+# session. Splicing it into CLAUDE.md as well puts the same ~12 KB in the cached
+# system prefix — the same instruction paid for twice, in the position this project
+# argues against. Same for a second copy of the skill, which the plugin also ships.
+# VERBOSELESS_FORCE_CLAUDE=1 installs them anyway.
+plugin_installed() {
+  [ "${VERBOSELESS_FORCE_CLAUDE:-0}" = 1 ] && return 1
+  if command -v claude >/dev/null 2>&1 &&
+     claude plugin list --json 2>/dev/null | grep -q '"verboseless@'; then return 0; fi
+  [ -d "$HOME/.claude/plugins/cache/verboseless" ] && return 0
+  return 1
+}
+
 BEGIN="<!-- verboseless:begin — generated, edit personas/ upstream instead -->"
 END="<!-- verboseless:end -->"
 
@@ -118,6 +131,9 @@ while IFS='|' read -r name marker src dest; do
     fi
     continue
   fi
+  if [ "$name" = claude-code ] && [ "$MODE" != uninstall ] && plugin_installed; then
+    say "$name" "SKIP — the plugin already ships this skill"; continue
+  fi
   [ -f "$SRC/$src" ] || { say "$name" "SKIP — $src missing from checkout (run ./build.sh)"; continue; }
   if [ "$DRY" = 1 ]; then say "$name" "would write $dest"
   else
@@ -135,6 +151,10 @@ while IFS='|' read -r name marker dest body; do
   if [ "$MODE" = uninstall ]; then
     r=$([ "$DRY" = 1 ] && echo "would unsplice" || unsplice "$TARGET/$dest")
     [ "$r" = absent ] || { say "$name" "$r block from $dest"; n=$((n+1)); }
+    continue
+  fi
+  if [ "$name" = claude-md ] && [ "$MODE" != uninstall ] && plugin_installed; then
+    say "$name" "SKIP — the plugin's hook already injects this; a spliced CLAUDE.md would double it"
     continue
   fi
   [ -f "$SRC/$body" ] || { say "$name" "SKIP — $body missing (run ./build.sh)"; continue; }

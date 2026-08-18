@@ -169,6 +169,26 @@ a=$(shasum < "$proj/AGENTS.md"); ./install.sh --target "$proj" >/dev/null
 [ "$a" = "$(shasum < "$proj/AGENTS.md")" ] || fail "re-running the installer is not idempotent"; ok
 [ "$(grep -c 'verboseless:begin' "$proj/AGENTS.md")" = 1 ] || fail "duplicate spliced blocks"; ok
 
+# The plugin's hook already injects the body; splicing CLAUDE.md too would put the
+# same ~12 KB in the cached system prefix as well. A stub `claude` on PATH keeps this
+# deterministic instead of depending on what is installed on the machine running it.
+stub="$tmp/stub"; mkdir -p "$stub"
+printf '#!/bin/sh\necho "[]"\n' > "$stub/claude"; chmod +x "$stub/claude"
+dup="$tmp/dup"; mkdir -p "$dup/.claude"; printf 'MY RULES\n' > "$dup/CLAUDE.md"
+
+PATH="$stub:$PATH" HOME="$tmp/nohome" ./install.sh --target "$dup" >/dev/null
+grep -q 'verboseless:begin' "$dup/CLAUDE.md" \
+  || fail "no plugin present, so CLAUDE.md should carry the block"; ok
+
+mkdir -p "$tmp/withhome/.claude/plugins/cache/verboseless"
+printf 'MY RULES\n' > "$dup/CLAUDE.md"
+PATH="$stub:$PATH" HOME="$tmp/withhome" ./install.sh --target "$dup" >/dev/null
+if grep -q 'verboseless:begin' "$dup/CLAUDE.md"; then
+  fail "the plugin is installed — splicing CLAUDE.md doubles the same body"
+fi; ok
+PATH="$stub:$PATH" HOME="$tmp/withhome" VERBOSELESS_FORCE_CLAUDE=1 ./install.sh --target "$dup" >/dev/null
+grep -q 'verboseless:begin' "$dup/CLAUDE.md" || fail "the force override must still install it"; ok
+
 ./install.sh --target "$proj" --uninstall >/dev/null
 cmp -s "$proj/AGENTS.md" "$tmp/agents.orig" \
   || fail "--uninstall did not restore AGENTS.md byte-for-byte"; ok
