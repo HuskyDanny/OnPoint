@@ -5,8 +5,10 @@
 # The payload MUST stay under 10 KB. Past that Claude Code writes it to a file and
 # injects a 2 KB preview instead — silently, hook still reported as succeeding.
 # Measured on 2.1.234: 10000 B inlines, 10050 B spills. JSON additionalContext hits
-# the SAME cap (its spill file is named …-additionalContext.txt), so the only fix is
-# to keep the bodies small. test.sh enforces the budget.
+# the SAME cap (its spill file is named …-additionalContext.txt). The cap is per
+# HOOK, so splitting one hook per persona file would raise it — but hook outputs
+# came back in reverse config order in that test, and glob order IS the axis order
+# here. One cat keeps the ordering deterministic; test.sh enforces the budget.
 #
 # Glob order IS the axis order: 00-doctrine, 01-essence-first, 02-say-less.
 # Renaming or deleting a file is how you reorder or disable an axis.

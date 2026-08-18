@@ -204,8 +204,18 @@ payload to a file and injects a 2 KB preview in its place — silently, with the
 still reported as succeeding and `/plugin` still showing it enabled. Measured on
 2.1.234: **10,000 B inlines, 10,050 B spills.** JSON `hookSpecificOutput.additional
 Context` hits the *same* cap — its spill file is just named `…-additionalContext.txt`
-instead of `…-stdout.txt` — so there is no clever encoding around it. The only fix is
-to stay small. The bodies are **9,655 B** and `./test.sh` fails past 9,800.
+instead of `…-stdout.txt` — so no encoding gets around it.
+
+The cap is **per hook, not per event**: two hooks of 7 KB on one `SessionStart` both
+arrive intact, 14 KB total, verified with a sentinel at the end of each. So a bigger
+payload is available by splitting one hook per persona file. This repo does not,
+for one reason: in that test the two blocks landed in the *reverse* of their
+configured order, and `glob order IS the axis order` is load-bearing here — the
+doctrine says essence first wins where the axes conflict, which only means anything
+if the axes arrive in order. One `cat` keeps that deterministic.
+
+So the ceiling is a choice, not a constraint. The bodies are **9,655 B** and
+`./test.sh` fails past 9,800.
 
 **Hook, not `CLAUDE.md`** — same words, different position. `CLAUDE.md` sits in the
 cached system prefix: said once at the head, decaying as the transcript grows past it.

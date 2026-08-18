@@ -62,8 +62,9 @@ bodies_b=$(wc -c < "$tmp/hook.txt" | tr -d ' ')
 # THE load-bearing invariant. Injected context is capped at ~10 KB: past that Claude
 # Code writes the payload to a file and injects a 2 KB preview instead — silently,
 # hook still reported as succeeding. Measured on 2.1.234: 10000 B inlines, 10050 B
-# spills. JSON additionalContext hits the SAME cap (spill file …-additionalContext.txt),
-# so staying small is the only fix. 9800 leaves headroom for the doctrine header.
+# spills. JSON additionalContext hits the SAME cap (spill file …-additionalContext.txt).
+# The cap is per HOOK, so splitting would raise it — at the cost of ordering, which
+# came back reversed when tested. 9800 leaves headroom for the doctrine header.
 [ "$bodies_b" -lt 9800 ] \
   || fail "bodies are ${bodies_b}B; past ~10000B the injection is silently truncated to a 2KB preview"; ok
 
