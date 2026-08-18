@@ -226,7 +226,16 @@ OUTPUT STYLE  4.5 KB  end of system prompt    the ROLE  — which behavior, what
 HOOK BODIES  11.7 KB  tail of the transcript  the RULES — and here is every one
 ```
 
-Different content, so they never duplicate. Enable the style with `/config` →
+Different content, so those two never duplicate — but the **rule files do**.
+`CLAUDE.md`, `AGENTS.md` and every `.cursor`/`.windsurf`/`.kiro` rule file are
+generated as byte-identical copies of the hook payload, because for those agents the
+rule file *is* the mechanism. For Claude Code it is not: the plugin's hook already
+delivers the body, so a spliced `CLAUDE.md` puts the same ~12 KB in the cached system
+prefix as well — one instruction, paid for twice, the second copy sitting exactly
+where this project argues instructions decay. `install.sh` now detects the plugin and
+skips both Claude Code surfaces, saying so; `VERBOSELESS_FORCE_CLAUDE=1` installs them
+anyway. This repo's own root `CLAUDE.md` is a distribution artifact for hand-copying,
+so working *inside this checkout* with the plugin enabled does still double it. Enable the style with `/config` →
 **Output style** → `Verboseless`. It's exclusive (one at a time, so it replaces
 yours), and `force-for-plugin` is deliberately unset so installing never hijacks your
 choice. It's hand-written, never generated: the moment the same text sits in both the
@@ -311,7 +320,7 @@ avoids a corrective round-trip; that is the hypothesis, and it is not yet measur
 
 ```
 ./build.sh    # regenerate every agent surface from personas/
-./test.sh     # 38 invariants, all RED-verified
+./test.sh     # 41 invariants, all RED-verified
 ```
 
 Axes emit, the per-prompt line stays one line, an absent `personas/` degrades instead
