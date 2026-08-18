@@ -44,6 +44,80 @@ byte-for-byte exact.
 
 Token counts are real, measured with `o200k_base`.
 
+**All three at once** — a real exchange, translated from the Chinese. *"I think I have
+heatstroke, what do I do?"* One line naming the thing, then the action, then no filler:
+一句话概括 + leading action + 少废话.
+
+<table>
+<tr><th width="50%">Normal agent — 408 tokens</th><th width="50%">verboseless — 155 tokens</th></tr>
+<tr valign="top"><td>
+
+Heatstroke — first work out how severe it is. Start by checking for danger signs:
+
+🚨 **Call an ambulance immediately if:**
+
+- Confused, incoherent, convulsing, or passed out and unrousable
+- Skin burning hot but not sweating (no sweat is the classic sign of heat stroke)
+- Body temperature over 40°C
+- Vomiting continuously, unable to drink
+
+This is heat stroke. Mortality is high. While waiting, pour cold water over them and fan them.
+
+If it is only dizziness, weakness, nausea, heavy sweating, muscle cramps (heat exhaustion / mild) do these in order, immediately:
+
+1. **Get out of the heat** — into air conditioning or a shaded, ventilated spot. Lie down, legs slightly raised
+2. Take off excess clothing, loosen the collar and belt
+3. **Cool physically** — cold towel or ice pack on the neck, armpits, and groin (where the big vessels run), sponge with lukewarm water + a fan. Do not plunge them into ice water, it causes shivering that raises temperature instead
+4. **Rehydrate** — small sips of lightly salted water or an electrolyte drink. Plain water alone dilutes electrolytes and makes cramps worse
+5. Do not drink: alcohol, coffee, strong tea (diuretics, dehydrating)
+6. For cramps, stretch and massage gently. Do not force the limb straight
+
+**Watch for**
+
+- Clear improvement within 30 minutes. No improvement or getting worse, go to hospital
+- No heat exposure and no exercise for the next two days
+- Watch urination: dark brown urine → possible rhabdomyolysis, get help quickly
+
+How are you feeling now? Any of the danger signs above, or are you somewhere cool already?
+
+</td><td>
+
+Cool them down before giving fluids — the danger is core temperature, not thirst.
+
+**Do now:**
+
+1. Get out of the heat, into shade or air conditioning, strip excess clothing
+2. Cool physically: sponge with cold water, damp towel + fan, focus on neck, armpits, groin
+3. Small sips of salted water or an electrolyte drink. Do not gulp ice water
+4. Lie flat, raise the legs
+
+**Call an ambulance immediately, do not tough these out:**
+
+- Confused, incoherent, convulsing, unconscious
+- Body temperature 40°C or above
+- Skin burning hot but not sweating
+- Vomiting continuously, cannot keep water down
+
+Take their temperature first. If you can, measure it now.
+
+</td></tr>
+</table>
+
+**−62%**, and the shape is the point rather than the saving. The left column buries the
+one thing that decides everything — *cool first, fluids second* — under a triage
+decision the reader has to make before they can act. The right column states it, then
+hands over four numbered actions, then the danger signs, then one thing to do now.
+
+Every danger sign survives verbatim: that list is a **security measure** by the
+doctrine's never-compress rule, so it is not eligible for cutting. What *is* deferred
+is the follow-up — the 30-minute recovery window, the two-day rule, the
+dark-urine/rhabdomyolysis warning. That is drill-down the reader pulls when the
+emergency is over, and calling it free would be dishonest: it is a deliberate deferral,
+chosen because a reader in the first minute of this needs four steps they will actually
+finish over ten they will abandon.
+
+Each axis on its own, for isolation.
+
 **essence first** — the answer that was already correct, but made you assemble the point yourself.
 
 <table>
