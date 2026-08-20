@@ -6,9 +6,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'VERBOSELESS ACTIVE \u2014 essence first (name the essence, verdict first, then the one next action), say less (terse, no filler). Substance, security and exact errors never compressed.'",
+            "command": "echo 'ON POINT ACTIVE \u2014 essence first (name the essence, verdict first, then the one next action), say less (terse, no filler). Substance, security and exact errors never compressed.'",
             "timeout": 5,
-            "statusMessage": "Loading verboseless"
+            "statusMessage": "Loading On Point"
           }
         ]
       }

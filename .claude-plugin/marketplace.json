@@ -1,14 +1,14 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "verboseless",
-  "description": "Essence first, say less. One plugin, three composable persona bodies, one cat.",
+  "name": "on-point",
+  "description": "On Point: essence first, then the next action, then say less. Two axes, one switch.",
   "owner": {
     "name": "Allen Pan",
     "url": "https://github.com/HuskyDanny"
   },
   "plugins": [
     {
-      "name": "verboseless",
+      "name": "on-point",
       "description": "Lead with the big idea, put the one next action right under it, and say it terse. Substance never compressed.",
       "source": "./",
       "category": "productivity"

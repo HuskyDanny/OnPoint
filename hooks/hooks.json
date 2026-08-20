@@ -8,7 +8,7 @@
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject.sh",
             "timeout": 5,
-            "statusMessage": "Loading verboseless..."
+            "statusMessage": "Loading On Point..."
           }
         ]
       }
@@ -31,7 +31,7 @@
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/inject.sh",
             "timeout": 5,
-            "statusMessage": "Loading verboseless..."
+            "statusMessage": "Loading On Point..."
           }
         ]
       }

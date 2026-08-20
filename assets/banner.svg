@@ -1,35 +1,65 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" width="1440" height="300"
-     role="img" aria-label="verboseless — big idea, next action, fewer words">
-<title>verboseless</title>
+     role="img" aria-label="On Point — big idea, next action, fewer words">
+<title>On Point</title>
 <defs>
   <style>
-    .bar { fill:#fdfcf8; }
-    /* The RESTING state is the compressed staircase — that is the logo, and it is
-       what the markup widths say, so a still frame or a no-animation renderer sees
-       it too. Three equal bars would read as a hamburger icon.
-       The animation is a one-time reveal: equal, then compressed, then hold.
-       Staggered so it reads as idea, words, code. */
-    .b1 { animation:b1 700ms cubic-bezier(.2,.7,.3,1) 250ms 1 both; }
-    .b2 { animation:b2 700ms cubic-bezier(.2,.7,.3,1) 400ms 1 both; }
-    .b3 { animation:b3 700ms cubic-bezier(.2,.7,.3,1) 550ms 1 both; }
-    @keyframes b1 { from {width:210px;} to {width:150px;} }
-    @keyframes b2 { from {width:210px;} to {width:96px;}  }
-    @keyframes b3 { from {width:210px;} to {width:52px;}  }
+    .ink { fill:#fdfcf8; }
+    .stk { fill:none; stroke:#fdfcf8; stroke-width:5; stroke-linecap:round; }
+    /* The mark reads left to right, which is the whole product in three beats:
+       a drop lands, it scatters into a splash, it resolves to one point.
+       The RESTING state IS the finished mark — the markup draws the end state, so a
+       still frame or a no-animation renderer sees all three beats. The animation is
+       a one-time reveal in that same order. */
+    .b1 { animation:fall  500ms cubic-bezier(.2,.7,.3,1)  200ms 1 both; }
+    .b2 { animation:burst 620ms cubic-bezier(.2,.7,.3,1)  520ms 1 both; }
+    .b3 { animation:land  460ms cubic-bezier(.2,1.7,.4,1) 900ms 1 both; }
+    @keyframes fall  { from { opacity:0; transform:translateY(-26px); }
+                       to   { opacity:1; transform:translateY(0); } }
+    @keyframes burst { from { opacity:0; transform:scale(.3); }
+                       to   { opacity:1; transform:scale(1); } }
+    @keyframes land  { from { opacity:0; transform:scale(0); }
+                       to   { opacity:1; transform:scale(1); } }
     @media (prefers-reduced-motion:reduce) { .b1,.b2,.b3 { animation:none; } }
   </style>
 </defs>
 
 <rect width="1440" height="300" fill="#0d0d0f"/>
 
-<!-- the mark: three bars, each compressed further than the last -->
-<rect class="bar b1" x="150" y="70"  width="150" height="24" rx="4"/>
-<rect class="bar b2" x="150" y="116" width="96"  height="24" rx="4"/>
-<rect class="bar b3" x="150" y="162" width="52"  height="24" rx="4"/>
+<!-- beat 1 — the drop -->
+<g class="b1" transform="translate(128 150)" transform-origin="0px 0px">
+  <path class="ink" d="M0 -44 C0 -44 21 -9 21 7 A21 21 0 1 1 -21 7 C-21 -9 0 -44 0 -44 Z"/>
+</g>
 
-<text x="392" y="178" fill="#fdfcf8"
+<!-- beat 2 — the splash: the same drop, scattered -->
+<g class="b2" transform="translate(266 150)" transform-origin="0px 0px">
+  <circle class="ink" cx="0" cy="0" r="9"/>
+  <path class="stk" d="M18.5 7.7 L35.1 14.5"/>
+  <path class="stk" d="M7.7 18.5 L14.5 35.1"/>
+  <path class="stk" d="M-7.7 18.5 L-14.5 35.1"/>
+  <path class="stk" d="M-18.5 7.7 L-35.1 14.5"/>
+  <path class="stk" d="M-18.5 -7.7 L-35.1 -14.5"/>
+  <path class="stk" d="M-7.7 -18.5 L-14.5 -35.1"/>
+  <path class="stk" d="M7.7 -18.5 L14.5 -35.1"/>
+  <path class="stk" d="M18.5 -7.7 L35.1 -14.5"/>
+  <circle class="ink" cx="52"    cy="0"     r="4.5"/>
+  <circle class="ink" cx="33.2"  cy="33.2"  r="3.5"/>
+  <circle class="ink" cx="0"     cy="52"    r="4.5"/>
+  <circle class="ink" cx="-33.2" cy="33.2"  r="3.5"/>
+  <circle class="ink" cx="-52"   cy="0"     r="4.5"/>
+  <circle class="ink" cx="-33.2" cy="-33.2" r="3.5"/>
+  <circle class="ink" cx="0"     cy="-52"   r="4.5"/>
+  <circle class="ink" cx="33.2"  cy="-33.2" r="3.5"/>
+</g>
+
+<!-- beat 3 — the point -->
+<g class="b3" transform="translate(400 150)" transform-origin="0px 0px">
+  <circle class="ink" cx="0" cy="0" r="12"/>
+</g>
+
+<text x="470" y="178" fill="#fdfcf8"
       font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
-      font-size="128" font-weight="700" letter-spacing="-4">verboseless</text>
-<text x="398" y="228" fill="#8b8680"
+      font-size="128" font-weight="700" letter-spacing="-4">On Point</text>
+<text x="476" y="228" fill="#8b8680"
       font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
       font-size="30" letter-spacing="2.5">BIG IDEA · NEXT ACTION · FEWER WORDS</text>
 </svg>

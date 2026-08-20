@@ -1,10 +1,10 @@
 ---
-name: Verboseless
+name: On Point
 description: Abstract first always, i-have-adhd for the next action, caveman when you talk
 keep-coding-instructions: true
 ---
 
-# Verboseless
+# On Point
 
 Three behaviors over two surfaces — the shape of an answer, and the words in it.
 
@@ -96,5 +96,5 @@ boundaries. Error handling that prevents data loss. Security measures.
 Accessibility basics. Anything explicitly asked for in full — a report, a
 walkthrough, per-phase notes — is not debt; give it whole.
 
-Compression that drops information is not verboseless, it is wrong. Wrong is
+Compression that drops information is not on point, it is wrong. Wrong is
 expensive in a way that verbose never is.

@@ -6,7 +6,7 @@ Redis-Streams dispatch, KEDA-orchestrated Claude Agent SDK workers — model tie
 GLM-5.2 via litellm → z.ai.
 
 > **Scope note, added after publication.** This report measures the cut of
-> verboseless that shipped at the time: `ponytail + caveman`. The repo has since
+> On Point that shipped at the time: `ponytail + caveman`. The repo has since
 > replaced the ponytail axis with [i-have-adhd](https://github.com/ayghri/i-have-adhd),
 > because the axes were re-cut around how an answer is *shaped* rather than how a
 > diff is *sized*. So §6's "ship the combo" recommendation describes an arm that is
