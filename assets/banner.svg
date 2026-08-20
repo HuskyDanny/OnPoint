@@ -10,15 +10,12 @@
        The RESTING state IS the finished mark — the markup draws the end state, so a
        still frame or a no-animation renderer sees all three beats. The animation is
        a one-time reveal in that same order. */
-    .b1 { animation:fall  500ms cubic-bezier(.2,.7,.3,1)  200ms 1 both; }
-    .b2 { animation:burst 620ms cubic-bezier(.2,.7,.3,1)  520ms 1 both; }
-    .b3 { animation:land  460ms cubic-bezier(.2,1.7,.4,1) 900ms 1 both; }
-    @keyframes fall  { from { opacity:0; transform:translateY(-26px); }
-                       to   { opacity:1; transform:translateY(0); } }
-    @keyframes burst { from { opacity:0; transform:scale(.3); }
-                       to   { opacity:1; transform:scale(1); } }
-    @keyframes land  { from { opacity:0; transform:scale(0); }
-                       to   { opacity:1; transform:scale(1); } }
+    .b1 { animation:reveal 520ms ease-out 200ms 1 both; }
+    .b2 { animation:reveal 520ms ease-out 620ms 1 both; }
+    .b3 { animation:reveal 520ms ease-out 1040ms 1 both; }
+    /* Opacity only, never transform: a CSS transform OVERRIDES the SVG transform
+       attribute that places each beat, which would fling the mark to 0,0. */
+    @keyframes reveal { from { opacity:0; } to { opacity:1; } }
     @media (prefers-reduced-motion:reduce) { .b1,.b2,.b3 { animation:none; } }
   </style>
 </defs>
@@ -26,12 +23,12 @@
 <rect width="1440" height="300" fill="#0d0d0f"/>
 
 <!-- beat 1 — the drop -->
-<g class="b1" transform="translate(128 150)" transform-origin="0px 0px">
+<g class="b1" transform="translate(128 150)">
   <path class="ink" d="M0 -44 C0 -44 21 -9 21 7 A21 21 0 1 1 -21 7 C-21 -9 0 -44 0 -44 Z"/>
 </g>
 
 <!-- beat 2 — the splash: the same drop, scattered -->
-<g class="b2" transform="translate(266 150)" transform-origin="0px 0px">
+<g class="b2" transform="translate(266 150)">
   <circle class="ink" cx="0" cy="0" r="9"/>
   <path class="stk" d="M18.5 7.7 L35.1 14.5"/>
   <path class="stk" d="M7.7 18.5 L14.5 35.1"/>
@@ -52,7 +49,7 @@
 </g>
 
 <!-- beat 3 — the point -->
-<g class="b3" transform="translate(400 150)" transform-origin="0px 0px">
+<g class="b3" transform="translate(400 150)">
   <circle class="ink" cx="0" cy="0" r="12"/>
 </g>
 
