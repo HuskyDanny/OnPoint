@@ -6,8 +6,8 @@
     "name": "Allen Pan",
     "url": "https://github.com/HuskyDanny"
   },
-  "homepage": "https://github.com/HuskyDanny/on-point",
-  "repository": "https://github.com/HuskyDanny/on-point",
+  "homepage": "https://github.com/HuskyDanny/OnPoint",
+  "repository": "https://github.com/HuskyDanny/OnPoint",
   "license": "MIT",
   "keywords": [
     "terse",
@@ -28,7 +28,7 @@
       "Instructions",
       "Lifecycle hooks"
     ],
-    "websiteURL": "https://github.com/HuskyDanny/on-point",
+    "websiteURL": "https://github.com/HuskyDanny/OnPoint",
     "defaultPrompt": [
       "Use On Point for this task.",
       "Answer with the big idea first, then stop.",

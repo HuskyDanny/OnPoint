@@ -1,7 +1,7 @@
 On Point
 Copyright (c) 2026 Allen Pan
 
-This work is a derivative that merges three sources into one plugin.
+This work is a derivative that merges two sources into one plugin.
 
 ────────────────────────────────────────────────────────────────────────────
 
@@ -32,16 +32,7 @@ One deliberate inversion: upstream i-have-adhd puts the next action on the first
 line, and here the altitude line owns the opening with the action directly
 beneath it. This extraction pattern is taken from a private agent-runtime
 codebase, which did the same reduction in order to inject personas into a Claude
-Agent SDK worker. The measurements behind this project's headline numbers come
-from that system; the report is republished, with the operator's identifiers
-removed, in docs/BENCHMARK.md.
-
-A third source, ponytail (https://github.com/DietrichGebert/ponytail, MIT,
-Copyright (c) 2026 Dietrich Gebert), supplied a "write less" axis in earlier
-versions. It was removed when the axes were re-cut around how an answer is
-shaped rather than how code is built; no ponytail-derived text remains, so it is
-no longer carried in LICENSES-THIRD-PARTY.md. docs/BENCHMARK.md still reports it
-as a benchmarked arm, which is a record of what was measured, not shipped code.
+Agent SDK worker.
 
 ────────────────────────────────────────────────────────────────────────────
 

@@ -130,7 +130,7 @@ grep -q 'assets/on-point.svg' README.md || fail "README does not reference the d
 grep -q 'assets/banner.svg' README.md      || fail "README does not reference the banner"; ok
 
 # No operator identifiers anywhere in a public repo — the guard that makes the
-# republished benchmark safe. The needles are assembled from fragments so that this
+# repo safe to publish. The needles are assembled from fragments so that this
 # file does not match its own pattern.
 needles="$(printf 'mi%s|kha%s|mel%s' 'thra' 'zad' 'lon')"
 if grep -rIl -iE "$needles" --exclude-dir=.git . >/dev/null 2>&1; then

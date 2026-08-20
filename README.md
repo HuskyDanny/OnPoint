@@ -13,9 +13,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/HuskyDanny/on-point/stargazers"><img src="https://img.shields.io/github/stars/HuskyDanny/on-point?style=flat&color=yellow" alt="Stars"></a>
+  <a href="https://github.com/HuskyDanny/OnPoint/stargazers"><img src="https://img.shields.io/github/stars/HuskyDanny/OnPoint?style=flat&color=yellow" alt="Stars"></a>
   <a href="#install"><img src="https://img.shields.io/badge/works_with-12%2B_agents-orange?style=flat" alt="12+ agents"></a>
-  <a href="https://github.com/HuskyDanny/on-point/commits/main"><img src="https://img.shields.io/github/last-commit/HuskyDanny/on-point?style=flat" alt="Last commit"></a>
+  <a href="https://github.com/HuskyDanny/OnPoint/commits/main"><img src="https://img.shields.io/github/last-commit/HuskyDanny/OnPoint?style=flat" alt="Last commit"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat" alt="License: MIT"></a>
 </p>
 
@@ -23,9 +23,7 @@
   <a href="#before--after">See it</a> ·
   <a href="#install">Install</a> ·
   <a href="#the-two-axes">Axes</a> ·
-  <a href="#how-it-works">How</a> ·
-  <a href="#benchmarks">Benchmarks</a> ·
-  <a href="#why-29-and-not-65">Why not 65%</a>
+  <a href="#how-it-works">How</a>
 </p>
 
 ---
@@ -124,7 +122,7 @@ finish over ten they will abandon.
 **Claude Code**
 
 ```
-/plugin marketplace add HuskyDanny/on-point
+/plugin marketplace add HuskyDanny/OnPoint
 /plugin install on-point@on-point
 ```
 
@@ -135,7 +133,7 @@ It replaces whichever style you have selected, so installing never picks it for 
 **Every other agent** — clone and let the installer detect what your project uses:
 
 ```bash
-git clone https://github.com/HuskyDanny/on-point
+git clone https://github.com/HuskyDanny/OnPoint
 cd your-project && /path/to/on-point/install.sh
 ```
 
@@ -224,80 +222,6 @@ File order is axis order. Rename to reorder, **delete a file to turn that axis o
 That is the entire configuration surface, and `./build.sh` pushes any edit back out to
 all fifteen agent surfaces.
 
-## Benchmarks
-
-**Read this first: the arm that was measured is not the arm that ships.** The
-numbers below are for `ponytail + caveman`, an earlier cut of this repo whose
-second axis was an anti-over-engineering persona. That axis has been replaced by
-`i-have-adhd`, which shapes an answer rather than shrinking a diff, so the −29%
-does **not** transfer. It is kept here because deleting an inconvenient
-measurement is worse than scoping it.
-
-Autonomous coding swarm (Claude Agent SDK, GLM-5.2), identical task every arm,
-**n=3 per arm**, cost metered off the wire rather than estimated:
-
-| | baseline | ponytail + caveman | Δ |
-|---|---|---|---|
-| cost per delivery | $4.74 ± 0.89 | **$3.37 ± 0.08** | **−29%** |
-| output tokens | 132.5k | 89.5k | −32% |
-| run-to-run variance | ±$0.89 | **±$0.08** | tightest of 9 arms |
-| correct deliveries | 3/3 | 3/3 | — |
-
-The variance column matters as much as the cost one: that combo was the most
-*predictable* arm in the field, which is what you want from a default.
-
-**What this does not show.** Two tasks, one model (GLM-5.2), Claude-tuned persona
-prompts — one upstream benchmark saw a terseness persona go net-negative on a
-small model. And nothing here measures the current axes at all: caveman's own
-**8.5%** on long-horizon runs is the closest honest floor, and the action half is
-not a compressor, so expect it to move correctness and round-trips rather than
-cost. Re-running the harness against the shipped pair is open work.
-
-**[Read the full report →](docs/BENCHMARK.md)** — two studies, nine
-configurations, 44 runs, ~$205 of model spend. Harness design, full
-threats-to-validity, and the base-merge failure that invalidated an entire round.
-Per-run pull-request links are omitted because they point into private
-repositories — stated plainly in the report rather than hidden.
-
-## Why 29% and not 65%
-
-Caveman advertises "cuts 65% of output tokens (measured)", and measures it honestly —
-on a one-shot reply, where the reply **is** the bill. On an agentic run it isn't:
-
-```
-baseline run cost = $5.66
-  fresh input     $0.52    9.1%
-  cache-read      $4.47   79.1%   ← re-sent context
-  output          $0.67   11.8%   ← all a terseness persona can touch
-```
-
-Output is the **ceiling**, and it's 11.8%. Cut 65% of it → save 7.7%. Cut *all* of it
-— every token the model emits, leaving an agent that does the work in total silence —
-→ save 11.8%.
-
-The measured saving on that arm is **29%**. That is **2.4× the entire output pool**, so at minimum
-17 percentage points of it cannot have come from terser messages at all. Terseness is
-not the mechanism; it is a side effect. The mechanism is fewer turns, and each avoided
-turn deletes a full re-send of the cached context at roughly $0.03–0.04 a go.
-
-Two
-compressions stack to explain the gap: terseness only compresses **prose**, and prose
-is a minority of output (reasoning alone ~⅔); output is in turn a minority of cost.
-Sixty-five percent off a slice of a slice lands in single digits — which is why
-caveman's own README now reports **8.5%** on long-horizon agentic runs, and that number
-is the honest one for a single terseness axis.
-
-The uncomfortable corollary: **the axis that deleted work carried most of that 29%,
-not the axis that deleted words.** Not building the speculative thing removes whole
-turns, and turns are what the bill is made of. Dropping it is a deliberate trade — this
-repo is now cut around how an answer is *shaped*, not how a diff is *sized* — and the
-cost claim goes with it.
-
-Judge any future optimization by whether it **shortens the run**. An input-command
-compressor tested alongside these landed dead-even with baseline for exactly that
-reason. By that test, `i-have-adhd` earns its place only if a correct first action
-avoids a corrective round-trip; that is the hypothesis, and it is not yet measured.
-
 ## Test
 
 ```
@@ -322,10 +246,8 @@ nobody turns twice. Deleting a `personas/*.md` file is already the off switch.
 `say less` from [caveman](https://github.com/JuliusBrussee/caveman) by Julius Brussee
 (MIT). The action half of `essence first` from
 [i-have-adhd](https://github.com/ayghri/i-have-adhd) by Ayoub Ghriss (MIT). The
-abstract-first half is original. An earlier `write less` axis came from
-[ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert (MIT) and no
-longer ships. Reducing each plugin to its single
-injectable body is a pattern borrowed from a private agent-runtime codebase, which did
-the same reduction to inject both into a Claude Agent SDK worker. See
+abstract-first half is original. Reducing each plugin to its single injectable body is a
+pattern borrowed from a private agent-runtime codebase, which did the same reduction to
+inject both into a Claude Agent SDK worker. See
 [`NOTICE`](NOTICE) for what changed and
 [`LICENSES-THIRD-PARTY.md`](LICENSES-THIRD-PARTY.md) for the upstream license texts.
