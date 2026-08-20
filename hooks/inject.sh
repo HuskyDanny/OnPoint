@@ -22,7 +22,7 @@ set -uo pipefail
 root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 
 if [ "${1:-}" = "--line" ]; then
-  echo "VERBOSELESS ACTIVE — essence first (name the essence, verdict first, then the one next action), say less (terse, no filler). Substance, security and exact errors never compressed."
+  echo "ON POINT ACTIVE — essence first (name the essence, verdict first, then the one next action), say less (terse, no filler). Substance, security and exact errors never compressed."
   exit 0
 fi
 

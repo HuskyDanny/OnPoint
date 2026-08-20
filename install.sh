@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install verboseless into whichever agents a project actually uses.
+# Install On Point into whichever agents a project actually uses.
 #
 #   ./install.sh                 detect agents in the current directory, install those
 #   ./install.sh --all           install every surface regardless of detection
@@ -9,7 +9,7 @@
 #
 # Two classes of destination, handled differently on purpose:
 #
-#   DEDICATED  .cursor/rules/verboseless.mdc, .clinerules/verboseless.md, …
+#   DEDICATED  .cursor/rules/on-point.mdc, .clinerules/on-point.md, …
 #              Ours alone. Written whole.
 #
 #   SHARED     AGENTS.md, CLAUDE.md, GEMINI.md, .github/copilot-instructions.md
@@ -36,19 +36,19 @@ while [ $# -gt 0 ]; do
 done
 
 [ -d "$TARGET" ] || { echo "no such directory: $TARGET" >&2; exit 1; }
-[ -f "$SRC/personas/00-doctrine.md" ] || { echo "run this from a verboseless checkout" >&2; exit 1; }
+[ -f "$SRC/personas/00-doctrine.md" ] || { echo "run this from an On Point checkout" >&2; exit 1; }
 
 # agent | marker that says "this project uses it" | source in checkout | destination
 # src and dest differ where an agent wants the file somewhere else (claude-code).
 AGENTS="
-cursor|.cursor|.cursor/rules/verboseless.mdc|.cursor/rules/verboseless.mdc
-windsurf|.windsurf|.windsurf/rules/verboseless.md|.windsurf/rules/verboseless.md
-cline|.clinerules|.clinerules/verboseless.md|.clinerules/verboseless.md
-kiro|.kiro|.kiro/steering/verboseless.md|.kiro/steering/verboseless.md
-qoder|.qoder|.qoder/rules/verboseless.md|.qoder/rules/verboseless.md
-opencode|.opencode|.opencode/command/verboseless.md|.opencode/command/verboseless.md
-openclaw|.openclaw|.openclaw/skills/verboseless/SKILL.md|.openclaw/skills/verboseless/SKILL.md
-claude-code|.claude|skills/verboseless/SKILL.md|.claude/skills/verboseless/SKILL.md
+cursor|.cursor|.cursor/rules/on-point.mdc|.cursor/rules/on-point.mdc
+windsurf|.windsurf|.windsurf/rules/on-point.md|.windsurf/rules/on-point.md
+cline|.clinerules|.clinerules/on-point.md|.clinerules/on-point.md
+kiro|.kiro|.kiro/steering/on-point.md|.kiro/steering/on-point.md
+qoder|.qoder|.qoder/rules/on-point.md|.qoder/rules/on-point.md
+opencode|.opencode|.opencode/command/on-point.md|.opencode/command/on-point.md
+openclaw|.openclaw|.openclaw/skills/on-point/SKILL.md|.openclaw/skills/on-point/SKILL.md
+claude-code|.claude|skills/on-point/SKILL.md|.claude/skills/on-point/SKILL.md
 codex|.codex|.codex/config.toml|.codex/config.toml
 codex-hooks|.codex|.codex/hooks.json|.codex/hooks.json
 "
@@ -64,17 +64,17 @@ copilot|.github|.github/copilot-instructions.md|.github/copilot-instructions.md
 # session. Splicing it into CLAUDE.md as well puts the same ~12 KB in the cached
 # system prefix — the same instruction paid for twice, in the position this project
 # argues against. Same for a second copy of the skill, which the plugin also ships.
-# VERBOSELESS_FORCE_CLAUDE=1 installs them anyway.
+# ON_POINT_FORCE_CLAUDE=1 installs them anyway.
 plugin_installed() {
-  [ "${VERBOSELESS_FORCE_CLAUDE:-0}" = 1 ] && return 1
+  [ "${ON_POINT_FORCE_CLAUDE:-0}" = 1 ] && return 1
   if command -v claude >/dev/null 2>&1 &&
-     claude plugin list --json 2>/dev/null | grep -q '"verboseless@'; then return 0; fi
-  [ -d "$HOME/.claude/plugins/cache/verboseless" ] && return 0
+     claude plugin list --json 2>/dev/null | grep -q '"on-point@'; then return 0; fi
+  [ -d "$HOME/.claude/plugins/cache/on-point" ] && return 0
   return 1
 }
 
-BEGIN="<!-- verboseless:begin — generated, edit personas/ upstream instead -->"
-END="<!-- verboseless:end -->"
+BEGIN="<!-- on-point:begin — generated, edit personas/ upstream instead -->"
+END="<!-- on-point:end -->"
 
 say() { printf '  %-12s %s\n' "$1" "$2"; }
 
@@ -116,7 +116,7 @@ print("removed")
 PY
 }
 
-echo "verboseless → $TARGET"
+echo "on-point → $TARGET"
 [ "$DRY" = 1 ] && echo "  (dry run — nothing will be written)"
 n=0
 

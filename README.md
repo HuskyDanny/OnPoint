@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="verboseless — big idea, next action, fewer words" width="720">
+  <img src="assets/banner.svg" alt="On Point — big idea, next action, fewer words" width="720">
 </p>
 
 <p align="center">
@@ -8,14 +8,14 @@
 
 <p align="center">
   Two axes on one switch, for any AI agent.<br>
-  The idea lands, the move is obvious, and nothing in between is padding.<br>
+  A drop, a splash, then one point — the answer arrives already landed.<br>
   Substance, security and exact errors: byte-for-byte untouched.
 </p>
 
 <p align="center">
-  <a href="https://github.com/HuskyDanny/verboseless-all-in-one/stargazers"><img src="https://img.shields.io/github/stars/HuskyDanny/verboseless-all-in-one?style=flat&color=yellow" alt="Stars"></a>
+  <a href="https://github.com/HuskyDanny/on-point/stargazers"><img src="https://img.shields.io/github/stars/HuskyDanny/on-point?style=flat&color=yellow" alt="Stars"></a>
   <a href="#install"><img src="https://img.shields.io/badge/works_with-12%2B_agents-orange?style=flat" alt="12+ agents"></a>
-  <a href="https://github.com/HuskyDanny/verboseless-all-in-one/commits/main"><img src="https://img.shields.io/github/last-commit/HuskyDanny/verboseless-all-in-one?style=flat" alt="Last commit"></a>
+  <a href="https://github.com/HuskyDanny/on-point/commits/main"><img src="https://img.shields.io/github/last-commit/HuskyDanny/on-point?style=flat" alt="Last commit"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat" alt="License: MIT"></a>
 </p>
 
@@ -30,7 +30,7 @@
 
 ---
 
-verboseless is a skill/plugin for [Claude Code](https://code.claude.com/docs), Codex,
+On Point is a skill/plugin for [Claude Code](https://code.claude.com/docs), Codex,
 Gemini CLI, Cursor, Windsurf, Cline, Copilot, Kiro, Qoder, OpenCode, OpenClaw, Devin,
 and anything that reads `AGENTS.md`. Install once. The agent opens with the point
 instead of the mechanism, puts the one thing you can do next directly under it, and
@@ -39,6 +39,9 @@ byte-for-byte exact.
 
 > Everything can be abstract. Einstein could state relativity in one sentence; a
 > person who truly knows a thing explains it simply.
+
+The name is the mark. A **drop** lands, a **splash** throws it in every direction,
+and it all resolves to a single **point** — which is the only frame you wanted.
 
 ## Before / after
 
@@ -49,7 +52,7 @@ do?"* All three personas at work in one answer: name the thing in one line, lead
 the action, cut everything else.
 
 <table>
-<tr><th width="50%">Normal agent — 408 tokens</th><th width="50%">verboseless — 155 tokens</th></tr>
+<tr><th width="50%">Normal agent — 408 tokens</th><th width="50%">On Point — 155 tokens</th></tr>
 <tr valign="top"><td>
 
 Heatstroke — first work out how severe it is. Start by checking for danger signs:
@@ -118,24 +121,29 @@ finish over ten they will abandon.
 
 ## Install
 
-**Claude Code** — the full plugin: hooks, a skill, an optional output style.
+**Claude Code**
 
 ```
-/plugin marketplace add HuskyDanny/verboseless-all-in-one
-/plugin install verboseless@verboseless
+/plugin marketplace add HuskyDanny/on-point
+/plugin install on-point@on-point
 ```
+
+That is it. There is also an optional output style if you want the same behaviour
+stated as a role rather than a rulebook — `/config` → **Output style** → `On Point`.
+It replaces whichever style you have selected, so installing never picks it for you.
 
 **Every other agent** — clone and let the installer detect what your project uses:
 
 ```bash
-git clone https://github.com/HuskyDanny/verboseless-all-in-one
-cd your-project && /path/to/verboseless-all-in-one/install.sh
+git clone https://github.com/HuskyDanny/on-point
+cd your-project && /path/to/on-point/install.sh
 ```
 
 It looks for `.cursor/`, `.windsurf/`, `.clinerules/`, `.kiro/`, `.qoder/`,
 `.opencode/`, `.openclaw/`, `.codex/`, `.claude/`, `.github/`, `AGENTS.md`,
 `CLAUDE.md`, `GEMINI.md` and installs only for what's there. `--all` for everything,
-`--dry-run` to look first, `--uninstall` to undo.
+`--dry-run` to look first, `--uninstall` to undo. If the Claude Code plugin is already
+installed it skips the Claude surfaces rather than shipping you the same rules twice.
 
 **Your own instruction files are never overwritten.** `AGENTS.md`, `CLAUDE.md`,
 `GEMINI.md` and `.github/copilot-instructions.md` usually already hold your rules, so
@@ -148,16 +156,16 @@ the block is spliced between markers — re-running replaces only our block, and
 | agent | file |
 |---|---|
 | Codex, Amp, Jules, anything AGENTS.md | `AGENTS.md` |
-| Claude Code | `CLAUDE.md`, or `skills/verboseless/SKILL.md` |
+| Claude Code | `CLAUDE.md`, or `skills/on-point/SKILL.md` |
 | Gemini CLI | `GEMINI.md` + `gemini-extension.json` |
-| Cursor | `.cursor/rules/verboseless.mdc` |
-| Windsurf | `.windsurf/rules/verboseless.md` |
-| Cline | `.clinerules/verboseless.md` |
+| Cursor | `.cursor/rules/on-point.mdc` |
+| Windsurf | `.windsurf/rules/on-point.md` |
+| Cline | `.clinerules/on-point.md` |
 | GitHub Copilot | `.github/copilot-instructions.md` |
-| Kiro | `.kiro/steering/verboseless.md` |
-| Qoder | `.qoder/rules/verboseless.md` |
-| OpenCode | `.opencode/command/verboseless.md` |
-| OpenClaw | `.openclaw/skills/verboseless/SKILL.md` |
+| Kiro | `.kiro/steering/on-point.md` |
+| Qoder | `.qoder/rules/on-point.md` |
+| OpenCode | `.opencode/command/on-point.md` |
+| OpenClaw | `.openclaw/skills/on-point/SKILL.md` |
 | Devin | `.devin-plugin/plugin.json` |
 
 Every one of those is **generated** from `personas/*.md` by `./build.sh`. Edit the
@@ -166,6 +174,10 @@ personas, never the generated file; `./test.sh` fails if any copy is stale.
 </details>
 
 ## The two axes
+
+<p align="center">
+  <img src="assets/on-point.svg" alt="On Point: the same answer twice — a normal agent spreads eight lines of prose with the one thing to do buried inside, where On Point puts the idea on line one and the one next action on line two. Two axes, a never-compressed list, and one install for every agent." width="100%">
+</p>
 
 | governs | behave like | body |
 |---|---|---|
@@ -192,75 +204,25 @@ cannot state is how you end up efficiently doing the wrong thing.
 
 `personas/00-doctrine.md` holds the never-compress list — substance, exact errors,
 code, trust-boundary validation, data-loss handling, security, accessibility, anything
-asked for in full. Compression that drops information isn't verboseless, it's wrong.
+asked for in full. Compression that drops information isn't on point, it's wrong.
 
 ## How it works
 
-<p align="center">
-  <img src="assets/verboseless.svg" alt="Three persona bodies on disk, cat'd by one hook into the tail of the context on every prompt, where two axes govern the shape of the answer and the words inside it" width="100%">
-</p>
+Install it, and the two axes are simply on — in every session, on every prompt, and
+again after a context compaction. There is nothing to switch, no level to pick, no
+state kept anywhere.
 
-Hook events `SessionStart`, `UserPromptSubmit` and `SubagentStart` accept **plain
-stdout** as context. So the mechanism is a `cat`:
-
-```bash
-cat "$root"/personas/*.md
-```
-
-Glob order is the axis order. Rename to reorder, delete to disable. No config, no env
-var, no state file.
-
-**The 10 KB ceiling.** Injected context is capped. Past ~10 KB Claude Code writes the
-payload to a file and injects a 2 KB preview in its place — silently, with the hook
-still reported as succeeding and `/plugin` still showing it enabled. Measured on
-2.1.234: **10,000 B inlines, 10,050 B spills.** JSON `hookSpecificOutput.additional
-Context` hits the *same* cap — its spill file is just named `…-additionalContext.txt`
-instead of `…-stdout.txt` — so no encoding gets around it.
-
-The cap is **per hook, not per event**: two hooks of 7 KB on one `SessionStart` both
-arrive intact, 14 KB total, verified with a sentinel at the end of each. So a bigger
-payload is available by splitting one hook per persona file. This repo does not,
-for one reason: in that test the two blocks landed in the *reverse* of their
-configured order, and `glob order IS the axis order` is load-bearing here — the
-doctrine says essence first wins where the axes conflict, which only means anything
-if the axes arrive in order. One `cat` keeps that deterministic.
-
-So the ceiling is a choice, not a constraint. The bodies are **9,655 B** and
-`./test.sh` fails past 9,800.
-
-**Hook, not `CLAUDE.md`** — same words, different position. `CLAUDE.md` sits in the
-cached system prefix: said once at the head, decaying as the transcript grows past it.
-A hook lands at the **tail**, beside the live turn, re-fired every prompt and after
-every compaction. The repetition is the forcing function.
-
-`UserPromptSubmit` gets one line, not the bodies — a full copy per prompt would stack
-into the re-sent context, which is the pool this exists to shrink. `SubagentStart`
-gets the full bodies: a subagent's report *is* the parent's context, so compressing it
-pays twice. Neither upstream injects into subagents at all; that reads as an omission,
-not a decision.
-
-### Two surfaces, two altitudes
+The rules themselves are three markdown files:
 
 ```
-OUTPUT STYLE  4.5 KB  end of system prompt    the ROLE  — which behavior, what surface
-HOOK BODIES   9.4 KB  tail of the transcript  the RULES — and here is every one
+personas/00-doctrine.md      what is never compressed
+personas/01-essence-first.md the shape of an answer
+personas/02-say-less.md      the words inside it
 ```
 
-Different content, so those two never duplicate — but the **rule files do**.
-`CLAUDE.md`, `AGENTS.md` and every `.cursor`/`.windsurf`/`.kiro` rule file are
-generated as byte-identical copies of the hook payload, because for those agents the
-rule file *is* the mechanism. For Claude Code it is not: the plugin's hook already
-delivers the body, so a spliced `CLAUDE.md` puts the same ~12 KB in the cached system
-prefix as well — one instruction, paid for twice, the second copy sitting exactly
-where this project argues instructions decay. `install.sh` now detects the plugin and
-skips both Claude Code surfaces, saying so; `VERBOSELESS_FORCE_CLAUDE=1` installs them
-anyway. This repo's own root `CLAUDE.md` is a distribution artifact for hand-copying,
-so working *inside this checkout* with the plugin enabled does still double it. Enable the style with `/config` →
-**Output style** → `Verboseless`. It's exclusive (one at a time, so it replaces
-yours), and `force-for-plugin` is deliberately unset so installing never hijacks your
-choice. It's hand-written, never generated: the moment the same text sits in both the
-system prompt and the tail you pay twice for one instruction, and `test.sh` fails if
-the style grows past half the bodies.
+File order is axis order. Rename to reorder, **delete a file to turn that axis off**.
+That is the entire configuration surface, and `./build.sh` pushes any edit back out to
+all fifteen agent surfaces.
 
 ## Benchmarks
 
@@ -343,16 +305,16 @@ avoids a corrective round-trip; that is the hypothesis, and it is not yet measur
 ./test.sh     # 44 invariants, all RED-verified
 ```
 
-Axes emit, the per-prompt line stays one line, an absent `personas/` degrades instead
-of breaking a session, the output style stays a role statement, every generated agent
-surface is byte-identical to a fresh build, manifests and diagrams parse. Each
+Axes emit, an absent `personas/` degrades that axis instead of breaking a session, the
+output style stays a role statement, every generated agent surface is byte-identical to
+a fresh build, manifests and diagrams parse. Each
 invariant was verified to actually fail when broken — a test that can't go red proves
 nothing.
 
 ## Left out
 
 Intensity levels, slash-command level switching, a statusline, a mode-tracker state
-file, a `VERBOSELESS` env var, an SDK injector. All exist upstream; all are knobs
+file, an `ON_POINT` env var, an SDK injector. All exist upstream; all are knobs
 nobody turns twice. Deleting a `personas/*.md` file is already the off switch.
 
 ## Credit

@@ -8,7 +8,7 @@ n=0
 fail() { echo "FAIL: $*" >&2; exit 1; }
 ok()   { n=$((n+1)); }
 
-STYLE=output-styles/verboseless.md
+STYLE=output-styles/on-point.md
 tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 
 # ── the hook ─────────────────────────────────────────────────────────────────
@@ -17,18 +17,18 @@ tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 # succeeding. Measured on 2.1.234: 10001 B inlines, 10050 B spills. The bodies are
 # ~12 KB, so they MUST go out as JSON additionalContext, which has no cap.
 bash hooks/inject.sh > "$tmp/hook.txt" || fail "inject.sh exited non-zero"
-for section in 'VERBOSELESS ACTIVE' 'Essence first' 'i-have-adhd' 'Say less'; do
+for section in 'ON POINT ACTIVE' 'Essence first' 'i-have-adhd' 'Say less'; do
   grep -q "$section" "$tmp/hook.txt" || fail "inject.sh missing section: $section"; ok
 done
 
 # The per-prompt reinforcement must stay one line — the whole reason
 # UserPromptSubmit gets --line instead of the full bodies.
 [ "$(bash hooks/inject.sh --line | wc -l | tr -d ' ')" = 1 ] || fail "--line must emit exactly one line"; ok
-bash hooks/inject.sh --line | grep -q 'VERBOSELESS ACTIVE' || fail "--line emitted no marker"; ok
+bash hooks/inject.sh --line | grep -q 'ON POINT ACTIVE' || fail "--line emitted no marker"; ok
 
 # A missing body degrades that axis, never the run.
 mkdir -p "$tmp/personas"; cp personas/00-doctrine.md "$tmp/personas/"
-CLAUDE_PLUGIN_ROOT="$tmp" bash hooks/inject.sh | grep -q 'VERBOSELESS ACTIVE' \
+CLAUDE_PLUGIN_ROOT="$tmp" bash hooks/inject.sh | grep -q 'ON POINT ACTIVE' \
   || fail "a partial personas/ should still emit what it has"; ok
 if CLAUDE_PLUGIN_ROOT="$tmp" bash hooks/inject.sh | grep -q 'Say less'; then
   fail "an absent body must not appear"
@@ -43,7 +43,7 @@ lines = open(sys.argv[1], encoding="utf-8").read().split("\n")
 assert lines[0] == "---", "must open with frontmatter"
 end = lines.index("---", 1)
 keys = dict(l.split(":", 1) for l in lines[1:end] if ":" in l)
-assert keys.get("name", "").strip() == "Verboseless", "name must be Verboseless"
+assert keys.get("name", "").strip() == "On Point", "name must be On Point"
 assert keys.get("description", "").strip(), "description is required for the /config picker"
 # Without this, selecting the style DELETES Claude Code's coding instructions.
 assert keys.get("keep-coding-instructions", "").strip() == "true", "keep-coding-instructions must be true"
@@ -118,15 +118,15 @@ ok
 
 # The Codex hook payload has to survive JSON quoting AND shell quoting.
 codex_cmd=$(python3 -c 'import json;print(json.load(open(".codex/hooks.json"))["hooks"]["SessionStart"][0]["hooks"][0]["command"])')
-eval "$codex_cmd" | grep -q 'VERBOSELESS ACTIVE' || fail "codex hook command does not run in a shell"; ok
+eval "$codex_cmd" | grep -q 'ON POINT ACTIVE' || fail "codex hook command does not run in a shell"; ok
 
-for svg in assets/verboseless.svg assets/banner.svg; do
+for svg in assets/on-point.svg assets/banner.svg; do
   python3 -c "import xml.dom.minidom; xml.dom.minidom.parse('$svg')" \
     || fail "$svg is not valid XML — GitHub renders nothing, with no error anywhere"; ok
   grep -q '@keyframes' "$svg"            || fail "$svg lost its animation"; ok
   grep -q 'prefers-reduced-motion' "$svg" || fail "$svg must honour reduced-motion"; ok
 done
-grep -q 'assets/verboseless.svg' README.md || fail "README does not reference the diagram"; ok
+grep -q 'assets/on-point.svg' README.md || fail "README does not reference the diagram"; ok
 grep -q 'assets/banner.svg' README.md      || fail "README does not reference the banner"; ok
 
 # No operator identifiers anywhere in a public repo — the guard that makes the
@@ -157,7 +157,7 @@ before=$(cd "$proj" && find . -type f | sort | xargs shasum | shasum)
   || fail "--dry-run wrote something"; ok
 
 ./install.sh --target "$proj" >/dev/null
-[ -f "$proj/.cursor/rules/verboseless.mdc" ] || fail "detected cursor but installed nothing"; ok
+[ -f "$proj/.cursor/rules/on-point.mdc" ] || fail "detected cursor but installed nothing"; ok
 if [ -d "$proj/.windsurf" ]; then fail "installed windsurf with no marker present"; fi; ok
 grep -q 'never delete the database' "$proj/AGENTS.md" \
   || fail "DESTROYED the user's own AGENTS.md content"; ok
@@ -165,7 +165,7 @@ head -1 "$proj/AGENTS.md" | grep -q 'MY OWN RULES' || fail "moved the user's con
 
 a=$(shasum < "$proj/AGENTS.md"); ./install.sh --target "$proj" >/dev/null
 [ "$a" = "$(shasum < "$proj/AGENTS.md")" ] || fail "re-running the installer is not idempotent"; ok
-[ "$(grep -c 'verboseless:begin' "$proj/AGENTS.md")" = 1 ] || fail "duplicate spliced blocks"; ok
+[ "$(grep -c 'on-point:begin' "$proj/AGENTS.md")" = 1 ] || fail "duplicate spliced blocks"; ok
 
 # The plugin's hook already injects the body; splicing CLAUDE.md too would put the
 # same ~12 KB in the cached system prefix as well. A stub `claude` on PATH keeps this
@@ -175,21 +175,21 @@ printf '#!/bin/sh\necho "[]"\n' > "$stub/claude"; chmod +x "$stub/claude"
 dup="$tmp/dup"; mkdir -p "$dup/.claude"; printf 'MY RULES\n' > "$dup/CLAUDE.md"
 
 PATH="$stub:$PATH" HOME="$tmp/nohome" ./install.sh --target "$dup" >/dev/null
-grep -q 'verboseless:begin' "$dup/CLAUDE.md" \
+grep -q 'on-point:begin' "$dup/CLAUDE.md" \
   || fail "no plugin present, so CLAUDE.md should carry the block"; ok
 
-mkdir -p "$tmp/withhome/.claude/plugins/cache/verboseless"
+mkdir -p "$tmp/withhome/.claude/plugins/cache/on-point"
 printf 'MY RULES\n' > "$dup/CLAUDE.md"
 PATH="$stub:$PATH" HOME="$tmp/withhome" ./install.sh --target "$dup" >/dev/null
-if grep -q 'verboseless:begin' "$dup/CLAUDE.md"; then
+if grep -q 'on-point:begin' "$dup/CLAUDE.md"; then
   fail "the plugin is installed — splicing CLAUDE.md doubles the same body"
 fi; ok
-PATH="$stub:$PATH" HOME="$tmp/withhome" VERBOSELESS_FORCE_CLAUDE=1 ./install.sh --target "$dup" >/dev/null
-grep -q 'verboseless:begin' "$dup/CLAUDE.md" || fail "the force override must still install it"; ok
+PATH="$stub:$PATH" HOME="$tmp/withhome" ON_POINT_FORCE_CLAUDE=1 ./install.sh --target "$dup" >/dev/null
+grep -q 'on-point:begin' "$dup/CLAUDE.md" || fail "the force override must still install it"; ok
 
 ./install.sh --target "$proj" --uninstall >/dev/null
 cmp -s "$proj/AGENTS.md" "$tmp/agents.orig" \
   || fail "--uninstall did not restore AGENTS.md byte-for-byte"; ok
-if [ -f "$proj/.cursor/rules/verboseless.mdc" ]; then fail "--uninstall left a dedicated file behind"; fi; ok
+if [ -f "$proj/.cursor/rules/on-point.mdc" ]; then fail "--uninstall left a dedicated file behind"; fi; ok
 
 echo "OK — $n invariants, $surfaces agent surfaces in sync, style is ${style_b}B vs ${bodies_b}B of rules"

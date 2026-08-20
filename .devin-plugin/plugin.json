@@ -1,13 +1,13 @@
 {
-  "name": "verboseless",
-  "version": "0.3.0",
+  "name": "on-point",
+  "version": "0.4.0",
   "description": "Essence first, say less. Big idea first, then the one next action, in terse prose. Substance never compressed.",
   "author": {
     "name": "Allen Pan",
     "url": "https://github.com/HuskyDanny"
   },
-  "homepage": "https://github.com/HuskyDanny/verboseless-all-in-one",
-  "repository": "https://github.com/HuskyDanny/verboseless-all-in-one",
+  "homepage": "https://github.com/HuskyDanny/on-point",
+  "repository": "https://github.com/HuskyDanny/on-point",
   "license": "MIT",
   "keywords": [
     "terse",
@@ -19,7 +19,7 @@
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "interface": {
-    "displayName": "Verboseless",
+    "displayName": "On Point",
     "shortDescription": "Big idea first, then the next action, then say less",
     "longDescription": "Two axes on one switch: open at design altitude, put the one next action directly under it, and keep every word after that terse. Substance, exact errors and security are never compressed.",
     "developerName": "Allen Pan",
@@ -28,9 +28,9 @@
       "Instructions",
       "Lifecycle hooks"
     ],
-    "websiteURL": "https://github.com/HuskyDanny/verboseless-all-in-one",
+    "websiteURL": "https://github.com/HuskyDanny/on-point",
     "defaultPrompt": [
-      "Use verboseless for this task.",
+      "Use On Point for this task.",
       "Answer with the big idea first, then stop.",
       "Give me the one next action, numbered if there are several."
     ],
