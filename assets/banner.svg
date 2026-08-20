@@ -1,62 +1,83 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" width="1440" height="300"
      role="img" aria-label="On Point — big idea, next action, fewer words">
 <title>On Point</title>
+<desc>A drop falls, hits and splashes, and settles into a single point.</desc>
 <defs>
   <style>
     .ink { fill:#fdfcf8; }
     .stk { fill:none; stroke:#fdfcf8; stroke-width:5; stroke-linecap:round; }
-    /* The mark reads left to right, which is the whole product in three beats:
-       a drop lands, it scatters into a splash, it resolves to one point.
-       The RESTING state IS the finished mark — the markup draws the end state, so a
-       still frame or a no-animation renderer sees all three beats. The animation is
-       a one-time reveal in that same order. */
-    .b1 { animation:reveal 520ms ease-out 200ms 1 both; }
-    .b2 { animation:reveal 520ms ease-out 620ms 1 both; }
-    .b3 { animation:reveal 520ms ease-out 1040ms 1 both; }
-    /* Opacity only, never transform: a CSS transform OVERRIDES the SVG transform
-       attribute that places each beat, which would fling the mark to 0,0. */
-    @keyframes reveal { from { opacity:0; } to { opacity:1; } }
-    @media (prefers-reduced-motion:reduce) { .b1,.b2,.b3 { animation:none; } }
+
+    /* One mark in one place, three phases in time: the drop falls, it hits and
+       splashes, it becomes the point. The RESTING state is the point alone — the
+       drop and the splash are drawn with opacity 0 and only borrowed by the
+       animation, so a still renderer, or prefers-reduced-motion, sees exactly the
+       finished mark and nothing overlapping it.
+
+       Each phase animates its OWN element, never the group that positions it: a CSS
+       transform overrides the SVG transform attribute, so animating the placed group
+       would fling the mark to 0,0. Placement stays an attribute on the outer g element;
+       every animated transform lives on an inner element with transform-box:fill-box
+       so it scales about itself rather than the viewBox. */
+    #drop, #splash, #point { transform-box:fill-box; }
+    #drop   { opacity:0; transform-origin:50% 100%; animation:fall  5.5s linear infinite; }
+    #splash { opacity:0; transform-origin:center;   animation:burst 5.5s linear infinite; }
+    #point  { opacity:1; transform-origin:center;   animation:land  5.5s linear infinite; }
+
+    @keyframes fall {
+      0%   { opacity:0; transform:translateY(-78px) scale(1);           }
+      5%   { opacity:1; transform:translateY(-46px) scale(1);           }
+      12%  { opacity:1; transform:translateY(0)     scale(1);           }
+      14%  { opacity:1; transform:translateY(3px)   scale(1.35,.55);    }  /* impact */
+      17%  { opacity:1; transform:translateY(-8px)  scale(.9,1.15);     }  /* bounce */
+      20%  { opacity:1; transform:translateY(0)     scale(1);           }
+      23%  { opacity:0; transform:translateY(0)     scale(.2);          }  /* collapses */
+      100% { opacity:0; transform:translateY(0)     scale(.2);          }
+    }
+    @keyframes burst {
+      0%,12% { opacity:0; transform:scale(.2);  }
+      16%    { opacity:1; transform:scale(.85); }
+      26%    { opacity:0; transform:scale(1.5); }
+      100%   { opacity:0; transform:scale(1.5); }
+    }
+    @keyframes land {
+      0%,20% { opacity:0; transform:scale(0);    }
+      25%    { opacity:1; transform:scale(1.4);  }  /* pops in where the drop was */
+      29%    { opacity:1; transform:scale(1);    }
+      100%   { opacity:1; transform:scale(1);    }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      #drop, #splash, #point { animation:none; }
+    }
   </style>
 </defs>
 
 <rect width="1440" height="300" fill="#0d0d0f"/>
 
-<!-- beat 1 — the drop -->
-<g class="b1" transform="translate(128 150)">
-  <path class="ink" d="M0 -44 C0 -44 21 -9 21 7 A21 21 0 1 1 -21 7 C-21 -9 0 -44 0 -44 Z"/>
+<!-- the mark: one spot, three phases -->
+<g transform="translate(196 150)">
+  <path id="drop" class="ink"
+        d="M0 -46 C0 -46 22 -10 22 7 A22 22 0 1 1 -22 7 C-22 -10 0 -46 0 -46 Z"/>
+  <g id="splash">
+    <g class="stk">
+      <path d="M19 8 L36 15"/>   <path d="M8 19 L15 36"/>
+      <path d="M-8 19 L-15 36"/> <path d="M-19 8 L-36 15"/>
+      <path d="M-19 -8 L-36 -15"/><path d="M-8 -19 L-15 -36"/>
+      <path d="M8 -19 L15 -36"/> <path d="M19 -8 L36 -15"/>
+    </g>
+    <g class="ink">
+      <circle cx="54"  cy="0"   r="5"/>  <circle cx="34"  cy="34"  r="4"/>
+      <circle cx="0"   cy="54"  r="5"/>  <circle cx="-34" cy="34"  r="4"/>
+      <circle cx="-54" cy="0"   r="5"/>  <circle cx="-34" cy="-34" r="4"/>
+      <circle cx="0"   cy="-54" r="5"/>  <circle cx="34"  cy="-34" r="4"/>
+    </g>
+  </g>
+  <circle id="point" class="ink" cx="0" cy="0" r="14"/>
 </g>
 
-<!-- beat 2 — the splash: the same drop, scattered -->
-<g class="b2" transform="translate(266 150)">
-  <circle class="ink" cx="0" cy="0" r="9"/>
-  <path class="stk" d="M18.5 7.7 L35.1 14.5"/>
-  <path class="stk" d="M7.7 18.5 L14.5 35.1"/>
-  <path class="stk" d="M-7.7 18.5 L-14.5 35.1"/>
-  <path class="stk" d="M-18.5 7.7 L-35.1 14.5"/>
-  <path class="stk" d="M-18.5 -7.7 L-35.1 -14.5"/>
-  <path class="stk" d="M-7.7 -18.5 L-14.5 -35.1"/>
-  <path class="stk" d="M7.7 -18.5 L14.5 -35.1"/>
-  <path class="stk" d="M18.5 -7.7 L35.1 -14.5"/>
-  <circle class="ink" cx="52"    cy="0"     r="4.5"/>
-  <circle class="ink" cx="33.2"  cy="33.2"  r="3.5"/>
-  <circle class="ink" cx="0"     cy="52"    r="4.5"/>
-  <circle class="ink" cx="-33.2" cy="33.2"  r="3.5"/>
-  <circle class="ink" cx="-52"   cy="0"     r="4.5"/>
-  <circle class="ink" cx="-33.2" cy="-33.2" r="3.5"/>
-  <circle class="ink" cx="0"     cy="-52"   r="4.5"/>
-  <circle class="ink" cx="33.2"  cy="-33.2" r="3.5"/>
-</g>
-
-<!-- beat 3 — the point -->
-<g class="b3" transform="translate(400 150)">
-  <circle class="ink" cx="0" cy="0" r="12"/>
-</g>
-
-<text x="470" y="178" fill="#fdfcf8"
+<text x="290" y="178" fill="#fdfcf8"
       font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
       font-size="128" font-weight="700" letter-spacing="-4">On Point</text>
-<text x="476" y="228" fill="#8b8680"
+<text x="296" y="228" fill="#8b8680"
       font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
       font-size="30" letter-spacing="2.5">BIG IDEA · NEXT ACTION · FEWER WORDS</text>
 </svg>

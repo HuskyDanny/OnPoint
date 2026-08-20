@@ -2,8 +2,7 @@
 
 `LICENSE` covers this work. Two persona sections derive from MIT-licensed
 upstreams; their license texts are reproduced in full below. See `NOTICE` for
-what was changed, including the ponytail axis that earlier versions carried and
-this one no longer does.
+what was changed.
 
 ---
 
