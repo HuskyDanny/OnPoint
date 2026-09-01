@@ -92,9 +92,12 @@ TOML
 LINE="$(bash hooks/inject.sh --line)" python3 -c '
 import json, os, shlex, sys
 cmd = "echo " + shlex.quote(os.environ["LINE"])
-json.dump({"hooks": {"SessionStart": [{"matcher": "startup|resume", "hooks": [
-    {"type": "command", "command": cmd,
-     "timeout": 5, "statusMessage": "Loading On Point"}]}]}}, sys.stdout, indent=2)
+handler = {"type": "command", "command": cmd, "timeout": 5}
+json.dump({"hooks": {
+    "SessionStart": [{"matcher": "startup|resume", "hooks": [
+        {**handler, "statusMessage": "Loading On Point"}]}],
+    "UserPromptSubmit": [{"hooks": [handler]}]
+}}, sys.stdout, indent=2)
 sys.stdout.write("\n")
 ' | w .codex/hooks.json
 
