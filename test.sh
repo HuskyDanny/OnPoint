@@ -116,9 +116,13 @@ assert os.path.isfile(json.load(open("gemini-extension.json"))["contextFileName"
 PY
 ok
 
-# The Codex hook payload has to survive JSON quoting AND shell quoting.
-codex_cmd=$(python3 -c 'import json;print(json.load(open(".codex/hooks.json"))["hooks"]["SessionStart"][0]["hooks"][0]["command"])')
-eval "$codex_cmd" | grep -q 'ON POINT ACTIVE' || fail "codex hook command does not run in a shell"; ok
+# Both Codex lifecycle hooks must reinforce the same one-line payload, and each
+# command has to survive JSON quoting AND shell quoting.
+for event in SessionStart UserPromptSubmit; do
+  codex_cmd=$(EVENT="$event" python3 -c 'import json,os;print(json.load(open(".codex/hooks.json"))["hooks"][os.environ["EVENT"]][0]["hooks"][0]["command"])')
+  eval "$codex_cmd" | grep -q 'ON POINT ACTIVE' \
+    || fail "codex $event hook command does not run in a shell"; ok
+done
 
 for svg in assets/on-point.svg assets/banner.svg; do
   python3 -c "import xml.dom.minidom; xml.dom.minidom.parse('$svg')" \
